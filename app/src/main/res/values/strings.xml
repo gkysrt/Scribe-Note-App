@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Scribe</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
+    <string name="title_activity_edit">EditActivity</string>
+    <string name="note_title_dummy">Dummy note title Kill butterflies wednesday</string>
+    <string name="note_body_dummy">Dummy note body etc. so on. bla bla bla</string>
+    <string name="note_date_dummy">26.09.2071</string>
 </resources>
