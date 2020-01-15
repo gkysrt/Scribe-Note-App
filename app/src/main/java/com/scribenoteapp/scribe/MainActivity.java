@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.scribenoteapp.scribe.model.Note;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity

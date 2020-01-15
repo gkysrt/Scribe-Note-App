@@ -8,9 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.scribenoteapp.scribe.model.Note;
 
-import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 
 /**
@@ -50,7 +49,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        holder.bind(notes.get(position).getTitle(), notes.get(position).getBody(), notes.get(position).getDate());
+        holder.bind(notes.get(position).getTitle(), notes.get(position).getBody(), notes.get(position).getCreationDate());
     }
 
     public class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
