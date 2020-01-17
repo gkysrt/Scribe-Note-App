@@ -1,4 +1,4 @@
-package com.scribenoteapp.scribe;
+package com.scribenoteapp.scribe.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -6,6 +6,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.scribenoteapp.scribe.R;
 
 public class EditActivity extends AppCompatActivity {
 

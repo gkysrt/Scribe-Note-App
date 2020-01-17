@@ -28,6 +28,17 @@ public class Note extends BaseNote {
         this.tags = new ArrayList<>();
     }
 
+    // TODO: This is to be deleted
+    public Note(String body, String title, String date) {
+        this.body = body;
+        this.title = title;
+        this.creationDate = date;
+        this.updateDate = date;
+        this.parent = null;
+        this.attachments = new ArrayList<>();
+        this.tags = new ArrayList<>();
+    }
+
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }

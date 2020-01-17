@@ -1,4 +1,4 @@
-package com.scribenoteapp.scribe;
+package com.scribenoteapp.scribe.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.scribenoteapp.scribe.NoteAdapter;
+import com.scribenoteapp.scribe.R;
 import com.scribenoteapp.scribe.model.Note;
 
 import java.util.ArrayList;
