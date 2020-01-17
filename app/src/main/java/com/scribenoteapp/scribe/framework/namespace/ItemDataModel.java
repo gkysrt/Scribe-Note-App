@@ -1,4 +1,4 @@
-package com.scribenoteapp.scribe.framework;
+package com.scribenoteapp.scribe.framework.namespace;
 
 /**
  * Created by ALLDe on 16/01/2020.
