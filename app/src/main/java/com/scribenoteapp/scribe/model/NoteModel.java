@@ -11,7 +11,6 @@ import java.util.ArrayList;
 /**
  * Created by ALLDe on 15/01/2020.
  */
-
 public class NoteModel extends AbstractModel{
     private ArrayList<BaseNote> notes;
     private NoteFolder currentFolder;

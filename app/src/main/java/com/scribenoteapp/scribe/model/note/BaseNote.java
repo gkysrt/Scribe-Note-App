@@ -6,32 +6,40 @@ import java.util.ArrayList;
  * Created by ALLDe on 14/01/2020.
  */
 
-public abstract class BaseNote implements Comparable<BaseNote>{
+public abstract class BaseNote implements Comparable<BaseNote> {
+    //private BaseNote parent;
     private NoteFolder parent;
     private String title;
     private String creationDate;
     private String updateDate;
 
-    public BaseNote(String title, String creationDate, NoteFolder parent)
-    {
-        this.creationDate = creationDate;
+    // todo: creation date, current timedan çekilmeli parametre olarak alınmasına gerek yok
+    // todo: burada parent atanıyorsa eğer, parent objeye bu objeyi child olarak eklemek gerekli.
+    // todo: parent item base note olmalı folder değil.
+    public BaseNote(String title, String creationDate, NoteFolder parent /*BaseNote parent*/) {
+        //this.creationDate = creationDate;
         this.updateDate = creationDate;
         this.title = title;
         this.parent = parent;
+        // todo: bu burada yapılmalı
+        //if (parent != null) {
+        //    parent.addChild(this);
+        //}
     }
 
     public abstract ArrayList<BaseNote> getChildren();
+
     public abstract ArrayList<String> getTags();
+
     public abstract void addTag(String tag);
+
     public abstract void removeTag(String tag);
 
-    public String filename()
-    {
+    public String filename() {
         return this.title;
     }
 
-    public String path()
-    {
+    public String path() {
         // todo: path eklerken append / yerine python da os.path.join gibi bir fonksyion var mı diye
         // todo: bakmak lazım
         // todo: pin var mı yok mu onu da eklemek gerekli
@@ -40,8 +48,7 @@ public abstract class BaseNote implements Comparable<BaseNote>{
         StringBuilder path = new StringBuilder();
         BaseNote parent = this.getParent();
 
-        while (parent != null)
-        {
+        while (parent != null) {
             path.append("/").append(parent.filename());
             parent = parent.getParent();
         }
@@ -50,17 +57,15 @@ public abstract class BaseNote implements Comparable<BaseNote>{
         return path.toString();
     }
 
-    public int getPosition()
-    {
-        return (this.getParent() != null ) ? this.getParent().indexOf(this) : -1;
+    public int getPosition() {
+        return (this.getParent() != null) ? this.getParent().indexOf(this) : -1;
     }
 
     public void setParent(NoteFolder parent) {
         this.parent = parent;
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -76,8 +81,7 @@ public abstract class BaseNote implements Comparable<BaseNote>{
         return this.parent;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return this.title;
     }
 
@@ -88,5 +92,10 @@ public abstract class BaseNote implements Comparable<BaseNote>{
     public String getUpdateDate() {
         return this.updateDate;
     }
+
+    //public boolean addChild(BaseNote node) {
+    //    this.getChildren().add(node);
+    //    return true;
+    //}
 
 }

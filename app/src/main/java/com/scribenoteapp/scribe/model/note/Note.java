@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.scribenoteapp.scribe.model.attachment.Attachment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by ALLDe on 13/01/2020.
@@ -14,6 +15,9 @@ public class Note extends BaseNote {
 
     private String body;
     private ArrayList<String> tags;
+    // todo: attachments bence tek liste değil de hashmap listesi olmali.
+    // todo:Çünkü resimleri getir sesleri getir demek için search etmek lazım sürekli
+    //private HashMap<String,Attachment> attachments;
     private ArrayList<Attachment> attachments;
 
     public Note(String body, String title, String creationDate, NoteFolder parent) {

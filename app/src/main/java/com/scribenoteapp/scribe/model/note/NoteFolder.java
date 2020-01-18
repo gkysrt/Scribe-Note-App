@@ -11,8 +11,7 @@ import java.util.ArrayList;
 public class NoteFolder extends BaseNote {
     private ArrayList<BaseNote> children;
 
-    public NoteFolder(String title, String creationDate, NoteFolder parent)
-    {
+    public NoteFolder(String title, String creationDate, NoteFolder parent) {
         super(title, creationDate, parent);
         this.children = new ArrayList<>();
     }
@@ -44,8 +43,7 @@ public class NoteFolder extends BaseNote {
         return o.path().compareTo(this.path());
     }
 
-    public int indexOf(BaseNote child)
-    {
+    public int indexOf(BaseNote child) {
         return this.children.indexOf(child);
     }
 }

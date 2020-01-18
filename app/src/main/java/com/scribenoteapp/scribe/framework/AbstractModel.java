@@ -6,12 +6,8 @@ import com.scribenoteapp.scribe.framework.namespace.ItemFlag;
 /**
  * Created by ALLDe on 16/01/2020.
  */
-
-public abstract class AbstractModel {
-    public AbstractModel()
-    {
-
-    }
+// todo: bu generic class olsa daha iyi olabilir. içinde tutacağı data
+public abstract class AbstractModel /*<T>*/ {
 
     public abstract ModelIndex index(int row, int column, ModelIndex parent);
 
@@ -37,7 +33,7 @@ public abstract class AbstractModel {
                 ItemFlag.ITEM_IS_USER_CHECKABLE};
     }
 
-    public ModelIndex createIndex(int row, int column, Object ptr)
+    public ModelIndex createIndex(int row, int column, Object /*T*/ ptr)
     {
         return new ModelIndex(row, column, ptr, this);
     }

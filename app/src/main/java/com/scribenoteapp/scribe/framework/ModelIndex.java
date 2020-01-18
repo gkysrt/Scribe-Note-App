@@ -11,6 +11,7 @@ import com.scribenoteapp.scribe.framework.namespace.ItemFlag;
  *   şu anda sadece aynı package içindeki classlar erişebiliyor.
  *   Böylelikle framework package dışından valid index
  *   sadece AbstractModel.createIndex() func ile olabiliyor.
+ *
  */
 
 public class ModelIndex {
@@ -34,7 +35,9 @@ public class ModelIndex {
         this.ptr = ptr;
         this.abstractModel = model;
     }
-
+    // todo: exception yeni bir exception classi olsun InvalidIndexException() gibi
+    // todo: burada QmodelIndex().data() yapınca None dönüyormuş, istersen onunki gibi yap yani eskisi gibi.
+    // todo: ama sen bilirisin.
     public Object data(ItemDataModel role) throws Exception {
         if (this.isValid())
             return this.model().data(this, role);
