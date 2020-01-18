@@ -31,10 +31,12 @@ public class ModelIndex {
 
     public Object data(ItemDataModel role)
     {
-        if (this.model() == null)
-            return null;
+        return (this.isValid()) ? this.model().data(this, role) : null;
+    }
 
-        return this.model().data(this, role);
+    public Object data()
+    {
+        return (this.isValid()) ? this.model().data(this, ItemDataModel.DISPLAY_ROLE) : null;
     }
 
     public boolean isValid()
@@ -47,26 +49,17 @@ public class ModelIndex {
 
     public ModelIndex parent()
     {
-        if (this.model() == null)
-            return null;
-
-        return this.model().parent(this);
+        return (this.isValid()) ? this.model().parent(this) : null;
     }
 
     public Object internalPointer()
     {
-        if (this.model() == null)
-            return null;
-
-        return this.ptr;
+        return (this.isValid()) ? this.ptr : null;
     }
 
     public ItemFlag[] flags()
     {
-        if (this.model() == null)
-            return null;
-
-        return this.model().flags();
+        return (this.isValid()) ? this.model().flags() : null;
     }
 
     public int row()
@@ -84,4 +77,18 @@ public class ModelIndex {
         return this.abstractModel;
     }
 
+    public ModelIndex sibling(int row, int column)
+    {
+        return (this.isValid()) ? this.model().createIndex(row, column, this.internalPointer()) : new ModelIndex();
+    }
+
+    public ModelIndex siblingAtRow(int row)
+    {
+        return (this.isValid()) ? this.model().createIndex(row, this.column(), this.internalPointer()) : new ModelIndex();
+    }
+
+    public ModelIndex siblingAtColumn(int column)
+    {
+        return (this.isValid()) ? this.model().createIndex(this.row(), column, this.internalPointer()) : new ModelIndex();
+    }
 }

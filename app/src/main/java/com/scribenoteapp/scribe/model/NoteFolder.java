@@ -9,31 +9,16 @@ import java.util.ArrayList;
  */
 
 public class NoteFolder extends BaseNote {
-    private String title;
     private ArrayList<BaseNote> children;
-    private NoteFolder parent;
 
-    public NoteFolder(String title, NoteFolder parent)
+    public NoteFolder(String title, String creationDate, NoteFolder parent)
     {
-        this.title = title;
-        this.parent = parent;
+        super(title, creationDate, parent);
         this.children = new ArrayList<>();
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public void setChildren(ArrayList<BaseNote> children) {
         this.children = children;
-    }
-
-    public void setParent(NoteFolder parent) {
-        this.parent = parent;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public ArrayList<BaseNote> getChildren() {
@@ -55,16 +40,12 @@ public class NoteFolder extends BaseNote {
     }
 
     @Override
-    public String filename() {
-        return this.title;
-    }
-
-    public NoteFolder getParent() {
-        return parent;
-    }
-
-    @Override
     public int compareTo(@NonNull BaseNote o) {
         return o.path().compareTo(this.path());
+    }
+
+    public int indexOf(BaseNote child)
+    {
+        return this.children.indexOf(child);
     }
 }
