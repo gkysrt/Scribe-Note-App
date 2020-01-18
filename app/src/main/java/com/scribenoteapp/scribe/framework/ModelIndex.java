@@ -4,9 +4,15 @@ import com.scribenoteapp.scribe.framework.namespace.ItemDataModel;
 import com.scribenoteapp.scribe.framework.namespace.ItemFlag;
 
 /**
- * Created by ALLDe on 16/01/2020.
+ * Created by Gokay on 16/01/2020.
  */
-// todo: burada sadece abstract model için görülen bir private constructor yapılabiliyor mu bakmak lazım.
+
+/**  NOTE: Model eklenebilen constructor protected olduğu için
+ *   şu anda sadece aynı package içindeki classlar erişebiliyor.
+ *   Böylelikle framework package dışından valid index
+ *   sadece AbstractModel.createIndex() func ile olabiliyor.
+ */
+
 public class ModelIndex {
     private AbstractModel abstractModel;
     private int indexRow;
@@ -56,27 +62,27 @@ public class ModelIndex {
 
     public ModelIndex parent()
     {
-        return (this.isValid()) ? this.model().parent(this) : null;
+        return this.isValid() ? this.model().parent(this) : null;
     }
 
     public Object internalPointer()
     {
-        return (this.isValid()) ? this.ptr : null;
+        return this.isValid() ? this.ptr : null;
     }
 
     public ItemFlag[] flags()
     {
-        return (this.isValid()) ? this.model().flags() : null;
+        return this.isValid() ? this.model().flags() : null;
     }
-    // todo burada valid değilse -1 dönmeli index
+
     public int row()
     {
-        return this.indexRow;
+        return this.isValid() ? this.indexRow : -1;
     }
-    // todo burada valid değilse -1 dönmeli index
+
     public int column()
     {
-        return this.indexColumn;
+        return this.isValid() ? this.indexColumn : -1;
     }
 
     public AbstractModel model()
@@ -86,16 +92,16 @@ public class ModelIndex {
 
     public ModelIndex sibling(int row, int column)
     {
-        return (this.isValid()) ? this.model().createIndex(row, column, this.internalPointer()) : new ModelIndex();
+        return this.isValid() ? this.model().createIndex(row, column, this.internalPointer()) : new ModelIndex();
     }
 
     public ModelIndex siblingAtRow(int row)
     {
-        return (this.isValid()) ? this.model().createIndex(row, this.column(), this.internalPointer()) : new ModelIndex();
+        return this.isValid() ? this.model().createIndex(row, this.column(), this.internalPointer()) : new ModelIndex();
     }
 
     public ModelIndex siblingAtColumn(int column)
     {
-        return (this.isValid()) ? this.model().createIndex(this.row(), column, this.internalPointer()) : new ModelIndex();
+        return this.isValid() ? this.model().createIndex(this.row(), column, this.internalPointer()) : new ModelIndex();
     }
 }
