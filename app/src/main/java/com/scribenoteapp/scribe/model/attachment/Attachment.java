@@ -1,4 +1,4 @@
-package com.scribenoteapp.scribe.model;
+package com.scribenoteapp.scribe.model.attachment;
 
 import android.graphics.drawable.Icon;
 

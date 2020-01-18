@@ -1,4 +1,4 @@
-package com.scribenoteapp.scribe.model;
+package com.scribenoteapp.scribe.model.note;
 
 import java.util.ArrayList;
 
@@ -32,6 +32,11 @@ public abstract class BaseNote implements Comparable<BaseNote>{
 
     public String path()
     {
+        // todo: path eklerken append / yerine python da os.path.join gibi bir fonksyion var mı diye
+        // todo: bakmak lazım
+        // todo: pin var mı yok mu onu da eklemek gerekli
+        // todo color eklenebilir.
+
         StringBuilder path = new StringBuilder();
         BaseNote parent = this.getParent();
 

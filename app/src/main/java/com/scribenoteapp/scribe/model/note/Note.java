@@ -1,6 +1,8 @@
-package com.scribenoteapp.scribe.model;
+package com.scribenoteapp.scribe.model.note;
 
 import android.support.annotation.NonNull;
+
+import com.scribenoteapp.scribe.model.attachment.Attachment;
 
 import java.util.ArrayList;
 

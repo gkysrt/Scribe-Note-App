@@ -16,9 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.scribenoteapp.scribe.NoteAdapter;
+import com.scribenoteapp.scribe.adapter.NoteAdapter;
 import com.scribenoteapp.scribe.R;
-import com.scribenoteapp.scribe.model.Note;
+import com.scribenoteapp.scribe.model.note.Note;
 
 import java.util.ArrayList;
 

@@ -6,7 +6,7 @@ import com.scribenoteapp.scribe.framework.namespace.ItemFlag;
 /**
  * Created by ALLDe on 16/01/2020.
  */
-
+// todo: burada sadece abstract model için görülen bir private constructor yapılabiliyor mu bakmak lazım.
 public class ModelIndex {
     private AbstractModel abstractModel;
     private int indexRow;
@@ -29,14 +29,21 @@ public class ModelIndex {
         this.abstractModel = model;
     }
 
-    public Object data(ItemDataModel role)
-    {
-        return (this.isValid()) ? this.model().data(this, role) : null;
+    public Object data(ItemDataModel role) throws Exception {
+        if (this.isValid())
+            return this.model().data(this, role);
+
+        throw new Exception("Invalid index has no data");
+
+//        return (this.isValid()) ? this.model().data(this, role) : new Exception("No model");
     }
 
-    public Object data()
+    public Object data() throws Exception
     {
-        return (this.isValid()) ? this.model().data(this, ItemDataModel.DISPLAY_ROLE) : null;
+        if (this.isValid())
+            return this.model().data(this, ItemDataModel.DISPLAY_ROLE);
+
+        throw new Exception("Invalid index has no data");
     }
 
     public boolean isValid()
@@ -61,12 +68,12 @@ public class ModelIndex {
     {
         return (this.isValid()) ? this.model().flags() : null;
     }
-
+    // todo burada valid değilse -1 dönmeli index
     public int row()
     {
         return this.indexRow;
     }
-
+    // todo burada valid değilse -1 dönmeli index
     public int column()
     {
         return this.indexColumn;

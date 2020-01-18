@@ -1,4 +1,4 @@
-package com.scribenoteapp.scribe;
+package com.scribenoteapp.scribe.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.scribenoteapp.scribe.model.Note;
+import com.scribenoteapp.scribe.R;
+import com.scribenoteapp.scribe.model.note.Note;
 
 import java.util.ArrayList;
 

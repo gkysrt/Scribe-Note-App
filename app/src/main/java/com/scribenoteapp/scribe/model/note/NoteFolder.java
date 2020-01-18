@@ -1,4 +1,4 @@
-package com.scribenoteapp.scribe.model;
+package com.scribenoteapp.scribe.model.note;
 
 import android.support.annotation.NonNull;
 
