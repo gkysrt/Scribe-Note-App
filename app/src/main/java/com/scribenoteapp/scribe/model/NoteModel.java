@@ -1,5 +1,8 @@
 package com.scribenoteapp.scribe.model;
 
+import com.scribenoteapp.scribe.model.note.BaseNote;
+import com.scribenoteapp.scribe.model.note.NoteFolder;
+
 import java.util.ArrayList;
 
 /**
@@ -7,6 +10,7 @@ import java.util.ArrayList;
  */
 
 public class NoteModel {
+    // todo: bu model abstract itemdan extend olacak
     private ArrayList<BaseNote> notes;
     private NoteFolder currentFolder;
     private BaseNote displayedItem;
