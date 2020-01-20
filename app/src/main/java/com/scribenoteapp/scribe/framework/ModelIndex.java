@@ -7,7 +7,8 @@ import com.scribenoteapp.scribe.framework.namespace.ItemFlag;
  * Created by Gokay on 16/01/2020.
  */
 
-/**  NOTE: Model eklenebilen constructor protected olduğu için
+/**
+ *  NOTE: Model eklenebilen constructor protected olduğu için
  *   şu anda sadece aynı package içindeki classlar erişebiliyor.
  *   Böylelikle framework package dışından valid index
  *   sadece AbstractModel.createIndex() func ile olabiliyor.
@@ -35,21 +36,13 @@ public class ModelIndex {
         this.abstractModel = model;
     }
 
-    public Object data(ItemDataModel role) throws Exception {
-        if (this.isValid())
-            return this.model().data(this, role);
-
-        throw new Exception("Invalid index has no data");
-
-//        return (this.isValid()) ? this.model().data(this, role) : new Exception("No model");
+    public Object data(int role){
+        return (this.isValid()) ? this.model().data(this, role) : null;
     }
 
-    public Object data() throws Exception
+    public Object data()
     {
-        if (this.isValid())
-            return this.model().data(this, ItemDataModel.DISPLAY_ROLE);
-
-        throw new Exception("Invalid index has no data");
+        return (this.isValid()) ? this.model().data(this, ItemDataModel.DISPLAY_ROLE) : null;
     }
 
     public boolean isValid()
@@ -70,9 +63,9 @@ public class ModelIndex {
         return this.isValid() ? this.ptr : null;
     }
 
-    public ItemFlag[] flags()
+    public int flags()
     {
-        return this.isValid() ? this.model().flags() : null;
+        return this.isValid() ? this.model().flags() : 0;
     }
 
     public int row()

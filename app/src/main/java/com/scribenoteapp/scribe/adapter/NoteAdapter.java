@@ -3,12 +3,15 @@ package com.scribenoteapp.scribe.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.scribenoteapp.scribe.R;
+import com.scribenoteapp.scribe.model.NoteModel;
+import com.scribenoteapp.scribe.model.note.BaseNote;
 import com.scribenoteapp.scribe.model.note.Note;
 
 import java.util.ArrayList;
@@ -19,16 +22,17 @@ import java.util.ArrayList;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder>{
 
-    private ArrayList<Note> notes;
+    private NoteModel model;
     private ListItemClickListener listItemClickListener;
-
-    public NoteAdapter(ArrayList<Note> notes, ListItemClickListener listItemClickListener)
-    {
-        this.notes = notes;
-    }
 
     public interface ListItemClickListener{
         void onListItemClick(int clickedItemIndex, View view);
+    }
+
+    public NoteAdapter(NoteModel model, ListItemClickListener listItemClickListener)
+    {
+        this.model= model;
+        this.listItemClickListener = listItemClickListener;
     }
 
     @NonNull
@@ -45,12 +49,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     @Override
     public int getItemCount() {
-        return notes.size();
+        return model.rowCount();
     }
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        holder.bind(notes.get(position).getTitle(), notes.get(position).getBody(), notes.get(position).getCreationDate());
+        // TODO: BASENOTE A GÖRE İŞLEM YAPILMALI
+        Note itemToBind = (Note) model.currentFolder().child(position);
+        holder.bind(itemToBind.getTitle(), itemToBind.getBody(), itemToBind.getCreationDate());
     }
 
     public class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -65,6 +71,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             this.noteTitle = noteView.findViewById(R.id.note_title_hint);
             this.noteBody = noteView.findViewById(R.id.note_body_hint);
             this.noteDate = noteView.findViewById(R.id.note_date);
+            noteView.setOnClickListener(this);
         }
 
         public void bind(String noteTitle, String noteBody, String noteDate)
@@ -76,7 +83,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
         @Override
         public void onClick(View v) {
-            listItemClickListener.onListItemClick(getAdapterPosition(), itemView);
+            listItemClickListener.onListItemClick(getAdapterPosition(), v);
         }
     }
 }

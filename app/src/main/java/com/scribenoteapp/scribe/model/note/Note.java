@@ -3,8 +3,12 @@ package com.scribenoteapp.scribe.model.note;
 import android.support.annotation.NonNull;
 
 import com.scribenoteapp.scribe.model.attachment.Attachment;
+import com.scribenoteapp.scribe.model.attachment.AttachmentTypes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ALLDe on 13/01/2020.
@@ -13,61 +17,46 @@ import java.util.ArrayList;
 public class Note extends BaseNote {
 
     private String body;
-    private ArrayList<String> tags;
-    private ArrayList<Attachment> attachments;
+    private Map<AttachmentTypes, ArrayList> attachments;
 
-    public Note(String body, String title, String creationDate, NoteFolder parent) {
-        super(title, creationDate, parent);
+    public Note(String body, String title, NoteFolder parent) {
+        super(title, parent);
         this.body = body;
-        this.attachments = new ArrayList<>();
-        this.tags = new ArrayList<>();
+        this.attachments = new HashMap<>();
     }
 
     // TODO: This is to be deleted
-    public Note(String body, String title, String date) {
-        super("", date, null);
+    public Note(String body, String title) {
+        super(title, null);
         this.body = body;
-        this.attachments = new ArrayList<>();
-        this.tags = new ArrayList<>();
+        this.attachments = new HashMap<>();
     }
 
     public void setBody(String body) {
         this.body = body;
+        this.updateDate();
     }
 
-    public void setAttachments(ArrayList<Attachment> attachments) {
-        this.attachments = attachments;
+    public void addAttachment(AttachmentTypes type, Attachment a)
+    {
+        if (attachments.get(type) == null)
+            attachments.put(type, new ArrayList<Attachment>());
+
+        attachments.get(type).add(a);
+        this.updateDate();
     }
 
-    public void setTags(ArrayList<String> tags) {
-        this.tags = tags;
+    public void removeAttachment(AttachmentTypes type, Attachment a)
+    {
+        attachments.get(type).remove(a);
     }
 
     public String getBody() {
         return body;
     }
 
-    public ArrayList<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public ArrayList<String> getTags() {
-        return tags;
-    }
-
-    public void addTag(String tag)
-    {
-        this.tags.add(tag);
-    }
-
-    public void removeTag(String tag)
-    {
-        this.tags.remove(tag);
-    }
-
-    @Override
-    public ArrayList<BaseNote> getChildren() {
-        return null;
+    public List getAttachments(AttachmentTypes type) {
+        return this.attachments.get(type);
     }
 
     @Override

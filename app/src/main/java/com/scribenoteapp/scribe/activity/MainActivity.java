@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,15 +19,17 @@ import android.widget.Toast;
 
 import com.scribenoteapp.scribe.adapter.NoteAdapter;
 import com.scribenoteapp.scribe.R;
+import com.scribenoteapp.scribe.model.NoteModel;
 import com.scribenoteapp.scribe.model.note.Note;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, NoteAdapter.ListItemClickListener {
 
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private NoteModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,36 +56,18 @@ public class MainActivity extends AppCompatActivity
         layoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(layoutManager);
+        model = new NoteModel();
 
-        final ArrayList<Note> notes = new ArrayList<>();
-        notes.add(new Note("kill meeeeeee", "PLEASE!!!!", "13.01.2020"));
-        notes.add(new Note("wooohoo", "WHO?", "22.22.2222"));
-        notes.add(new Note("Betty Botter bought some butter\n" +
-                "But she said the butter’s bitter\n" +
-                "If I put it in my batter, it will make my batter bitter\n" +
-                "But a bit of better butter will make my batter better\n" +
-                "So ‘twas better Betty Botter bought a bit of better butter", "DARE!!!!", "13.01.2020"));
-        notes.add(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT", "99.99.9999"));
-        notes.add(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT", "99.99.9999"));
-        notes.add(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT", "99.99.9999"));
-        notes.add(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT", "99.99.9999"));
-        notes.add(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT", "99.99.9999"));
-        notes.add(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT", "99.99.9999"));
-        notes.add(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT", "99.99.9999"));
-        notes.add(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT", "99.99.9999"));
-        notes.add(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT", "99.99.9999"));
-
-
-        NoteAdapter noteAdapter = new NoteAdapter(notes, new NoteAdapter.ListItemClickListener() {
-            @Override
-            public void onListItemClick(int clickedItemIndex, View view) {
-                Toast.makeText(MainActivity.this, notes.get(clickedItemIndex).getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        NoteAdapter noteAdapter = new NoteAdapter(model, this);
 
         recyclerView.setAdapter(noteAdapter);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex, View view) {
+        Toast.makeText(this, model.currentFolder().child(clickedItemIndex).getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -141,4 +126,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

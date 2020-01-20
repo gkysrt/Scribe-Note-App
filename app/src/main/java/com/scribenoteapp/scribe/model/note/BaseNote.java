@@ -1,6 +1,9 @@
 package com.scribenoteapp.scribe.model.note;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ALLDe on 14/01/2020.
@@ -11,19 +14,45 @@ public abstract class BaseNote implements Comparable<BaseNote>{
     private String title;
     private String creationDate;
     private String updateDate;
+    private List<String> tags;
 
-    public BaseNote(String title, String creationDate, NoteFolder parent)
+    public BaseNote(String title, NoteFolder parent)
     {
-        this.creationDate = creationDate;
+        this.creationDate = SimpleDateFormat.getDateTimeInstance().format(new Date());
         this.updateDate = creationDate;
         this.title = title;
-        this.parent = parent;
+        this.tags = new ArrayList<>();
+        this.setParent(parent);
     }
 
-    public abstract ArrayList<BaseNote> getChildren();
-    public abstract ArrayList<String> getTags();
-    public abstract void addTag(String tag);
-    public abstract void removeTag(String tag);
+    // TODO: need to implement a factory class
+    public BaseNote(String title, NoteFolder parent, String creationDate, String updateDate, List<String> tags)
+    {
+
+    }
+
+    public List<String> getTags() {
+        this.updateDate();
+        return this.tags;
+
+    }
+
+    public void addTag(String tag)
+    {
+        this.tags.add(tag);
+        this.updateDate();
+    }
+
+    public void removeTag(String tag)
+    {
+        this.tags.remove(tag);
+        this.updateDate();
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
+        this.updateDate();
+    }
 
     public String filename()
     {
@@ -32,11 +61,6 @@ public abstract class BaseNote implements Comparable<BaseNote>{
 
     public String path()
     {
-        // todo: path eklerken append / yerine python da os.path.join gibi bir fonksyion var mı diye
-        // todo: bakmak lazım
-        // todo: pin var mı yok mu onu da eklemek gerekli
-        // todo color eklenebilir.
-
         StringBuilder path = new StringBuilder();
         BaseNote parent = this.getParent();
 
@@ -56,20 +80,19 @@ public abstract class BaseNote implements Comparable<BaseNote>{
     }
 
     public void setParent(NoteFolder parent) {
+        if (this.parent != null)
+            this.parent.removeChild(this);
+
         this.parent = parent;
+        if (this.parent != null)
+            this.parent.addChild(this);
+        this.updateDate();
     }
 
     public void setTitle(String title)
     {
         this.title = title;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate;
+        this.updateDate();
     }
 
     public NoteFolder getParent() {
@@ -87,6 +110,11 @@ public abstract class BaseNote implements Comparable<BaseNote>{
 
     public String getUpdateDate() {
         return this.updateDate;
+    }
+
+    void updateDate()
+    {
+        SimpleDateFormat.getDateTimeInstance().format(new Date());
     }
 
 }
