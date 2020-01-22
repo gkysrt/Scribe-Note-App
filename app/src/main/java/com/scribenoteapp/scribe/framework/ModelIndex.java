@@ -37,7 +37,7 @@ public class ModelIndex {
     }
 
     public Object data(int role){
-        return (this.isValid()) ? this.model().data(this, role) : null;
+        return this.isValid() ? this.model().data(this, role) : null;
     }
 
     public Object data()

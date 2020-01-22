@@ -46,6 +46,7 @@ public class NoteModel extends AbstractModel{
         rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
         rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
         rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
+        rootFolder.addChild(new NoteFolder("asd", rootFolder));
     }
 
     @Override
@@ -131,7 +132,7 @@ public class NoteModel extends AbstractModel{
             return null;
 
         if (index.isValid())
-            return (BaseNote) index.data();
+            return (BaseNote) index.data(ItemDataModel.USER_ROLE);
 
         return this.currentFolder;
     }

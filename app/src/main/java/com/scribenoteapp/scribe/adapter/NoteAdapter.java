@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.scribenoteapp.scribe.R;
+import com.scribenoteapp.scribe.framework.ModelIndex;
 import com.scribenoteapp.scribe.model.NoteModel;
 import com.scribenoteapp.scribe.model.note.BaseNote;
 import com.scribenoteapp.scribe.model.note.Note;
+import com.scribenoteapp.scribe.model.note.NoteFolder;
 
 import java.util.ArrayList;
 
@@ -26,12 +28,16 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     private ListItemClickListener listItemClickListener;
 
     public interface ListItemClickListener{
-        void onListItemClick(int clickedItemIndex, View view);
+        void onListItemClick(ModelIndex clickedItemIndex, View view);
     }
 
-    public NoteAdapter(NoteModel model, ListItemClickListener listItemClickListener)
+    public NoteAdapter(NoteModel model)
     {
         this.model= model;
+    }
+
+    public void setOnListItemClickListener(ListItemClickListener listItemClickListener)
+    {
         this.listItemClickListener = listItemClickListener;
     }
 
@@ -54,9 +60,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        // TODO: BASENOTE A GÖRE İŞLEM YAPILMALI
-        Note itemToBind = (Note) model.currentFolder().child(position);
-        holder.bind(itemToBind.getTitle(), itemToBind.getBody(), itemToBind.getCreationDate());
+        holder.bind(this.model.index(position, 0));
     }
 
     public class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -74,16 +78,19 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             noteView.setOnClickListener(this);
         }
 
-        public void bind(String noteTitle, String noteBody, String noteDate)
+        public void bind(ModelIndex index)
         {
-            this.noteTitle.setText(noteTitle);
-            this.noteDate.setText(noteDate);
-            this.noteBody.setText(noteBody);
+            BaseNote note = model.getItem(index);
+            this.noteTitle.setText(note.getTitle());
+            this.noteDate.setText(note.getCreationDate());
+
+            if (note instanceof NoteFolder) this.noteBody.setText(null);
+            else if (note instanceof Note) this.noteBody.setText("s");
         }
 
         @Override
         public void onClick(View v) {
-            listItemClickListener.onListItemClick(getAdapterPosition(), v);
+            listItemClickListener.onListItemClick(model.index(getAdapterPosition(), 0), v);
         }
     }
 }

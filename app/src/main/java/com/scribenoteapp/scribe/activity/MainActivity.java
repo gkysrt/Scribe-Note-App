@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.scribenoteapp.scribe.adapter.NoteAdapter;
 import com.scribenoteapp.scribe.R;
+import com.scribenoteapp.scribe.framework.ModelIndex;
 import com.scribenoteapp.scribe.model.NoteModel;
 import com.scribenoteapp.scribe.model.note.Note;
 
@@ -58,7 +59,8 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
         model = new NoteModel();
 
-        NoteAdapter noteAdapter = new NoteAdapter(model, this);
+        NoteAdapter noteAdapter = new NoteAdapter(model);
+        noteAdapter.setOnListItemClickListener(this);
 
         recyclerView.setAdapter(noteAdapter);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -66,8 +68,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListItemClick(int clickedItemIndex, View view) {
-        Toast.makeText(this, model.currentFolder().child(clickedItemIndex).getTitle(), Toast.LENGTH_SHORT).show();
+    public void onListItemClick(ModelIndex clickedItemIndex, View view) {
+        Toast.makeText(this, (String) model.data(clickedItemIndex), Toast.LENGTH_SHORT).show();
     }
 
     @Override
