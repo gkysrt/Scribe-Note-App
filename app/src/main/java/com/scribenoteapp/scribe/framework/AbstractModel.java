@@ -6,7 +6,7 @@ import com.scribenoteapp.scribe.framework.namespace.ItemDataModel;
 import com.scribenoteapp.scribe.framework.namespace.ItemFlag;
 
 /**
- * Created by ALLDe on 16/01/2020.
+ * Created by Gokay on 16/01/2020.
  */
 
 public abstract class AbstractModel {
@@ -21,7 +21,7 @@ public abstract class AbstractModel {
 
     public abstract Object data(ModelIndex index, int role);
 
-    public abstract Object data(ModelIndex index);
+    public abstract String data(ModelIndex index);
 
     public abstract int rowCount(ModelIndex parent);
 

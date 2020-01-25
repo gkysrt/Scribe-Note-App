@@ -40,9 +40,9 @@ public class ModelIndex {
         return this.isValid() ? this.model().data(this, role) : null;
     }
 
-    public Object data()
+    public String data()
     {
-        return (this.isValid()) ? this.model().data(this, ItemDataModel.DISPLAY_ROLE) : null;
+        return this.isValid() ? this.model().data(this) : null;
     }
 
     public boolean isValid()

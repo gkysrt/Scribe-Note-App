@@ -79,7 +79,7 @@ public class NoteModel extends AbstractModel{
         BaseNote item = (BaseNote) index.internalPointer();
 
         if (role == ItemDataModel.DISPLAY_ROLE)
-            return item.filename();
+            return this.data(index);
 
         else if (role == ItemDataModel.USER_ROLE)
         {
@@ -90,9 +90,12 @@ public class NoteModel extends AbstractModel{
     }
 
     @Override
-    public Object data(ModelIndex index) {
+    public String data(ModelIndex index) {
         BaseNote item = (BaseNote) index.internalPointer();
-        return item.filename();
+        String body = item instanceof Note ? ((Note) item).getBody() : null;
+        String[] data = {item.filename(), body, item.getUpdateDate()};
+
+        return data[index.column()];
     }
 
     @Override
@@ -109,21 +112,23 @@ public class NoteModel extends AbstractModel{
 
     @Override
     public int columnCount(ModelIndex parent) {
-        return 0;
+        return 3;
     }
 
     @Override
     public int columnCount() {
-        return 0;
+        return 3;
     }
 
     @Override
     public ModelIndex parent(ModelIndex index) {
-        if (!index.isValid())
-            return new ModelIndex();
+//        if (!index.isValid())
+//            return new ModelIndex();
+//
+//        BaseNote note = (BaseNote) index.data(ItemDataModel.USER_ROLE);
+//        return createIndex(note.getParent().getPosition(), 0, note.getParent());
 
-        BaseNote note = (BaseNote) index.data(ItemDataModel.USER_ROLE);
-        return createIndex(note.getParent().getPosition(), 0, note.getParent());
+        return new ModelIndex();
     }
 
     public BaseNote getItem(ModelIndex index)

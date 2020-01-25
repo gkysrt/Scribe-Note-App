@@ -3,6 +3,7 @@ package com.scribenoteapp.scribe.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(layoutManager);
         model = new NoteModel();
 
