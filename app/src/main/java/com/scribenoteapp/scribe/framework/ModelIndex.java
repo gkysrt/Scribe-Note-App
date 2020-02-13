@@ -40,7 +40,7 @@ public class ModelIndex {
         return this.isValid() ? this.model().data(this, role) : null;
     }
 
-    public String data()
+    public Object data()
     {
         return this.isValid() ? this.model().data(this) : null;
     }
