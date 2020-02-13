@@ -6,7 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.scribenoteapp.scribe.adapter.NoteAdapter;
 import com.scribenoteapp.scribe.R;
+import com.scribenoteapp.scribe.controller.SwipeController;
 import com.scribenoteapp.scribe.framework.ModelIndex;
 import com.scribenoteapp.scribe.model.NoteModel;
 import com.scribenoteapp.scribe.model.note.Note;
@@ -59,11 +60,13 @@ public class MainActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(layoutManager);
+        SwipeController swipeController = new SwipeController();
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
         model = new NoteModel();
 
         NoteAdapter noteAdapter = new NoteAdapter(model);
         noteAdapter.setOnListItemClickListener(this);
-
         recyclerView.setAdapter(noteAdapter);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
