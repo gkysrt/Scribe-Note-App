@@ -17,7 +17,7 @@ import java.util.Map;
 public class Note extends BaseNote {
 
     private String body;
-    private Map<AttachmentTypes, ArrayList> attachments;
+    private Map<AttachmentTypes, ArrayList<Attachment>> attachments;
 
     public Note(String body, String title, NoteFolder parent) {
         super(title, parent);
@@ -32,13 +32,16 @@ public class Note extends BaseNote {
         this.attachments = new HashMap<>();
     }
 
+    public boolean hasAttachment(AttachmentTypes type) {
+        return this.attachments.containsKey(type);
+    }
+
     public void setBody(String body) {
         this.body = body;
         this.updateDate();
     }
 
-    public void addAttachment(AttachmentTypes type, Attachment a)
-    {
+    public void addAttachment(AttachmentTypes type, Attachment a) {
         if (attachments.get(type) == null)
             attachments.put(type, new ArrayList<Attachment>());
 
@@ -46,8 +49,7 @@ public class Note extends BaseNote {
         this.updateDate();
     }
 
-    public void removeAttachment(AttachmentTypes type, Attachment a)
-    {
+    public void removeAttachment(AttachmentTypes type, Attachment a) {
         attachments.get(type).remove(a);
     }
 
