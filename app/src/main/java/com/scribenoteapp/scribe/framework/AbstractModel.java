@@ -21,7 +21,7 @@ public abstract class AbstractModel {
 
     public abstract Object data(ModelIndex index, int role);
 
-    public abstract String data(ModelIndex index);
+    public abstract Object data(ModelIndex index);
 
     public abstract int rowCount(ModelIndex parent);
 
