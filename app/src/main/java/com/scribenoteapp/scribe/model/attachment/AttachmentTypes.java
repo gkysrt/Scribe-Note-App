@@ -5,5 +5,5 @@ package com.scribenoteapp.scribe.model.attachment;
  */
 
 public class AttachmentTypes {
-    public final static int AUDIO_ATTACHMENT = 1, IMAGE_ATTACHMENT = 2;
+    public final static int AUDIO = 1, IMAGE = 2, LOCATION = 3;
 }
