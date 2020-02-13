@@ -9,25 +9,26 @@ import java.util.List;
  * Created by ALLDe on 14/01/2020.
  */
 
-public abstract class BaseNote implements Comparable<BaseNote>{
+public abstract class BaseNote implements Comparable<BaseNote> {
     private NoteFolder parent;
     private String title;
     private String creationDate;
     private String updateDate;
+    private boolean isPinned;
+
     private List<String> tags;
 
-    public BaseNote(String title, NoteFolder parent)
-    {
+    public BaseNote(String title, NoteFolder parent) {
         this.creationDate = SimpleDateFormat.getDateTimeInstance().format(new Date());
         this.updateDate = creationDate;
         this.title = title;
+        this.isPinned = false;
         this.tags = new ArrayList<>();
         this.setParent(parent);
     }
 
     // TODO: need to implement a factory class
-    public BaseNote(String title, NoteFolder parent, String creationDate, String updateDate, List<String> tags)
-    {
+    public BaseNote(String title, NoteFolder parent, String creationDate, String updateDate, List<String> tags) {
 
     }
 
@@ -37,14 +38,20 @@ public abstract class BaseNote implements Comparable<BaseNote>{
 
     }
 
-    public void addTag(String tag)
-    {
+    public void setPinned(boolean isPinned) {
+        this.isPinned = isPinned;
+    }
+
+    public boolean getIsPinned() {
+        return this.isPinned;
+    }
+
+    public void addTag(String tag) {
         this.tags.add(tag);
         this.updateDate();
     }
 
-    public void removeTag(String tag)
-    {
+    public void removeTag(String tag) {
         this.tags.remove(tag);
         this.updateDate();
     }
@@ -54,18 +61,15 @@ public abstract class BaseNote implements Comparable<BaseNote>{
         this.updateDate();
     }
 
-    public String filename()
-    {
+    public String filename() {
         return this.title;
     }
 
-    public String path()
-    {
+    public String path() {
         StringBuilder path = new StringBuilder();
         BaseNote parent = this.getParent();
 
-        while (parent != null)
-        {
+        while (parent != null) {
             path.append("/").append(parent.filename());
             parent = parent.getParent();
         }
@@ -74,9 +78,8 @@ public abstract class BaseNote implements Comparable<BaseNote>{
         return path.toString();
     }
 
-    public int getPosition()
-    {
-        return (this.getParent() != null ) ? this.getParent().indexOf(this) : -1;
+    public int getPosition() {
+        return (this.getParent() != null) ? this.getParent().indexOf(this) : -1;
     }
 
     public void setParent(NoteFolder parent) {
@@ -89,8 +92,7 @@ public abstract class BaseNote implements Comparable<BaseNote>{
         this.updateDate();
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
         this.updateDate();
     }
@@ -99,8 +101,7 @@ public abstract class BaseNote implements Comparable<BaseNote>{
         return this.parent;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return this.title;
     }
 
@@ -112,8 +113,7 @@ public abstract class BaseNote implements Comparable<BaseNote>{
         return this.updateDate;
     }
 
-    void updateDate()
-    {
+    void updateDate() {
         SimpleDateFormat.getDateTimeInstance().format(new Date());
     }
 
