@@ -1,10 +1,12 @@
 package com.scribenoteapp.scribe.model;
 
+
 import com.scribenoteapp.scribe.R;
 
 import com.scribenoteapp.scribe.framework.AbstractModel;
 import com.scribenoteapp.scribe.framework.ModelIndex;
-import com.scribenoteapp.scribe.framework.namespace.ItemDataModel;
+import com.scribenoteapp.scribe.framework.namespace.ModelRole;
+import com.scribenoteapp.scribe.framework.signals.Signal;
 import com.scribenoteapp.scribe.model.note.BaseNote;
 import com.scribenoteapp.scribe.model.note.Note;
 import com.scribenoteapp.scribe.model.note.NoteFolder;
@@ -20,58 +22,37 @@ public class NoteModel extends AbstractModel {
     private ArrayList<String> tags;
     private String[] headerData;
 
+    private Signal modelResetSignal;
+
     public NoteModel() {
         this.rootFolder = new NoteFolder("/", null);
         this.currentFolder = this.rootFolder;
         this.tags = new ArrayList<>();
+
+        this.modelResetSignal = new Signal();
         this.headerData = new String[]{"Title", "Body", "Logo", "Pinned"};
         // TODO: SİLİNCEK
         this.init();
     }
 
+    public Signal getModelResetSignal() {
+        return this.modelResetSignal;
+    }
+
     public void init() {
         rootFolder.addChild(new Note("kill meeeeeee", "PLEASE!!!!"));
-        rootFolder.addChild(new Note("wooohoo", "WHO?"));
-        rootFolder.addChild(new Note("Betty Botter bought some butter\n" +
-                "But she said the butter’s bitter\n" +
-                "If I put it in my batter, it will make my batter bitter\n" +
-                "But a bit of better butter will make my batter better\n" +
-                "So ‘twas better Betty Botter bought a bit of better butter", "DARE!!!!"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new Note("Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn’t fuzzy, was he?", "WHY NOT"));
-        rootFolder.addChild(new NoteFolder("asd", rootFolder));
+        NoteFolder folder = new NoteFolder("asd", rootFolder);
+        new Note("bu bir iç note", "İç Note", folder);
+    }
+
+    public void setCurrentFolder(ModelIndex index) {
+        if (index.isValid()) {
+            Object baseNote = index.data(ModelRole.USER_ROLE);
+            if (baseNote instanceof NoteFolder) {
+                this.currentFolder = (NoteFolder) baseNote;
+                this.getModelResetSignal().emit();
+            }
+        }
     }
 
     @Override
@@ -103,10 +84,10 @@ public class NoteModel extends AbstractModel {
 
         BaseNote item = (BaseNote) index.internalPointer();
 
-        if (role == ItemDataModel.DISPLAY_ROLE)
+        if (role == ModelRole.DISPLAY_ROLE)
             return this.data(index);
 
-        else if (role == ItemDataModel.USER_ROLE) {
+        else if (role == ModelRole.USER_ROLE) {
             return item;
         }
 
@@ -127,8 +108,14 @@ public class NoteModel extends AbstractModel {
 
     @Override
     public int rowCount(ModelIndex parent) {
-        NoteFolder parentItem = (NoteFolder) this.getItem(parent);
-        return parentItem.childCount();
+        BaseNote baseNote = this.getItem(parent);
+        if (baseNote instanceof NoteFolder) {
+            NoteFolder folder = (NoteFolder) baseNote;
+            return folder.childCount();
+        } else {
+            return 0;
+        }
+
     }
 
     @Override
@@ -151,7 +138,7 @@ public class NoteModel extends AbstractModel {
 //        if (!index.isValid())
 //            return new ModelIndex();
 //
-//        BaseNote note = (BaseNote) index.data(ItemDataModel.USER_ROLE);
+//        BaseNote note = (BaseNote) index.data(ModelRole.USER_ROLE);
 //        return createIndex(note.getParent().getPosition(), 0, note.getParent());
 
         return new ModelIndex();
@@ -162,7 +149,7 @@ public class NoteModel extends AbstractModel {
             return null;
 
         if (index.isValid())
-            return (BaseNote) index.data(ItemDataModel.USER_ROLE);
+            return (BaseNote) index.data(ModelRole.USER_ROLE);
 
         return this.currentFolder;
     }
