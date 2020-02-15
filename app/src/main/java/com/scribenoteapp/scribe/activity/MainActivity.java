@@ -2,7 +2,6 @@ package com.scribenoteapp.scribe.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,19 +15,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.scribenoteapp.scribe.adapter.NoteAdapter;
 import com.scribenoteapp.scribe.R;
 import com.scribenoteapp.scribe.controller.SwipeController;
 import com.scribenoteapp.scribe.framework.ModelIndex;
+import com.scribenoteapp.scribe.framework.namespace.ModelRole;
+import com.scribenoteapp.scribe.framework.slots.Function1;
+import com.scribenoteapp.scribe.framework.slots.Function2;
 import com.scribenoteapp.scribe.model.NoteModel;
-import com.scribenoteapp.scribe.model.note.Note;
+import com.scribenoteapp.scribe.model.note.NoteFolder;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, NoteAdapter.ListItemClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
@@ -38,19 +38,20 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -66,26 +67,42 @@ public class MainActivity extends AppCompatActivity
         model = new NoteModel();
 
         NoteAdapter noteAdapter = new NoteAdapter(model);
-        noteAdapter.setOnListItemClickListener(this);
         recyclerView.setAdapter(noteAdapter);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        noteAdapter.getItemSelectedSignal().connect("recyclerViewSelectedItem", new Function2<Integer, Boolean, Void>() {
+            @Override
+            public Void function(Integer position, Boolean aBoolean) {
+                // scroll item to ensure it is visible
+                recyclerView.getLayoutManager().scrollToPosition(position);
+                return null;
+            }
+        });
+        noteAdapter.getItemClickedSignal().connect("modelChangeClickedItem", new Function1<ModelIndex, Void>() {
+            @Override
+            public Void function(ModelIndex modelIndex) {
+                Object baseNote = modelIndex.data(ModelRole.USER_ROLE);
+                if (baseNote instanceof NoteFolder) {
+                    NoteModel model = (NoteModel) modelIndex.model();
+                    model.setCurrentFolder(modelIndex);
+                }
+                return null;
+            }
+        });
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
-    public void onListItemClick(ModelIndex clickedItemIndex, View view) {
-        Toast.makeText(this, (String) model.data(clickedItemIndex), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
