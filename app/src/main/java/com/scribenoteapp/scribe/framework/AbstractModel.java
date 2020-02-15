@@ -1,8 +1,5 @@
 package com.scribenoteapp.scribe.framework;
 
-import android.view.Display;
-
-import com.scribenoteapp.scribe.framework.namespace.ItemDataModel;
 import com.scribenoteapp.scribe.framework.namespace.ItemFlag;
 
 /**
@@ -10,10 +7,6 @@ import com.scribenoteapp.scribe.framework.namespace.ItemFlag;
  */
 
 public abstract class AbstractModel {
-//    public AbstractModel()
-//    {
-//
-//    }
 
     public abstract ModelIndex index(int row, int column, ModelIndex parent);
 
