@@ -22,22 +22,16 @@ public class NoteModel extends AbstractModel {
     private ArrayList<String> tags;
     private String[] headerData;
 
-    private Signal modelResetSignal;
-
     public NoteModel() {
+        super();
         this.rootFolder = new NoteFolder("/", null);
         this.currentFolder = this.rootFolder;
         this.tags = new ArrayList<>();
-
-        this.modelResetSignal = new Signal();
         this.headerData = new String[]{"Title", "Body", "Logo", "Pinned"};
         // TODO: SİLİNCEK
         this.init();
     }
 
-    public Signal getModelResetSignal() {
-        return this.modelResetSignal;
-    }
 
     public void init() {
         rootFolder.addChild(new Note("kill meeeeeee", "PLEASE!!!!"));
