@@ -10,8 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scribenoteapp.scribe.R;
+import com.scribenoteapp.scribe.Static;
 import com.scribenoteapp.scribe.framework.ModelIndex;
+import com.scribenoteapp.scribe.framework.signals.Signal1;
+import com.scribenoteapp.scribe.framework.signals.Signal2;
+import com.scribenoteapp.scribe.framework.slots.Function;
+import com.scribenoteapp.scribe.framework.slots.Function1;
 import com.scribenoteapp.scribe.model.NoteModel;
+
+import java.util.Arrays;
 
 /**
  * Created by ALLDe on 13/01/2020.
@@ -20,26 +27,63 @@ import com.scribenoteapp.scribe.model.NoteModel;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
     private NoteModel model;
-    private ListItemClickListener listItemClickListener;
-    private boolean[] selectedIndexes;
-
-    public interface ListItemClickListener {
-        void onListItemClick(ModelIndex clickedItemIndex, View view);
-    }
+    private Signal1<ModelIndex> itemClickedSignal;
+    private Boolean[] selectedIndexes;
+    private Signal1<Boolean> itemSelectionChangedSignal;
+    private Signal2<Integer, Boolean> itemSelectedSignal;
 
     public NoteAdapter(NoteModel model) {
         this.model = model;
-        this.selectedIndexes = new boolean[this.model.rowCount()];
+
+        this.selectedIndexes = new Boolean[this.model.rowCount()];
+        Arrays.fill(this.selectedIndexes, Boolean.FALSE);
+
+        this.itemSelectionChangedSignal = new Signal1<>();
+        this.itemSelectedSignal = new Signal2<>();
+        this.itemClickedSignal = new Signal1<>();
+        this.initSignalsAndSlots();
     }
 
-    public boolean[] getSelectedIndexes(){
+    private void initSignalsAndSlots() {
+        this.model.getModelResetSignal().connect("modelResetNoteAdapter", new Function<Void>() {
+            @Override
+            public Void function() {
+                NoteAdapter.this.selectedIndexes = new Boolean[NoteAdapter.this.model.rowCount()];
+                Arrays.fill(NoteAdapter.this.selectedIndexes, Boolean.FALSE);
+                notifyDataSetChanged();
+                return null;
+            }
+        });
+    }
+
+    public void setModel(NoteModel model) {
+        this.model = model;
+        NoteAdapter.this.selectedIndexes = new Boolean[NoteAdapter.this.model.rowCount()];
+        Arrays.fill(NoteAdapter.this.selectedIndexes, Boolean.FALSE);
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public Signal1<Boolean> getItemSelectionChangedSignal() {
+        return this.itemSelectionChangedSignal;
+    }
+
+    public Signal2<Integer, Boolean> getItemSelectedSignal() {
+        return this.itemSelectedSignal;
+    }
+
+    public Signal1<ModelIndex> getItemClickedSignal() {
+        return this.itemClickedSignal;
+    }
+
+    public Boolean[] getSelectedIndexes() {
         return this.selectedIndexes;
     }
 
-
-    public void setOnListItemClickListener(ListItemClickListener listItemClickListener) {
-        this.listItemClickListener = listItemClickListener;
-    }
 
     @NonNull
     @Override
@@ -49,8 +93,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         boolean shouldAttachToParentImmediately = false;
 
         View view = inflater.inflate(R.layout.note_item_layout, parent, shouldAttachToParentImmediately);
-        NoteViewHolder viewHolder = new NoteViewHolder(view);
-        return viewHolder;
+        return new NoteViewHolder(view);
     }
 
     @Override
@@ -64,25 +107,54 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         holder.bind(this.model.index(position, 0));
     }
 
-    public class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class NoteViewHolder extends RecyclerView.ViewHolder {
         private TextView noteTitle;
         private TextView noteBody;
         private TextView noteDate;
         private ImageView noteIcon;
 
-        public NoteViewHolder(final View noteView) {
+        NoteViewHolder(final View noteView) {
             super(noteView);
             this.noteTitle = noteView.findViewById(R.id.note_title_hint);
             this.noteBody = noteView.findViewById(R.id.note_body_hint);
             this.noteDate = noteView.findViewById(R.id.note_date);
             this.noteIcon = noteView.findViewById(R.id.note_icon);
+            this.initSignalsAndSlots();
+        }
 
-            noteView.setOnClickListener(this);
+        private void initSignalsAndSlots() {
+            this.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ModelIndex index = NoteAdapter.this.model.index(getAdapterPosition(), 0);
+                    NoteAdapter.this.getItemClickedSignal().emit(index);
+                }
+            });
             this.noteIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    NoteAdapter.this.selectedIndexes[getAdapterPosition()] = !NoteAdapter.this.getSelectedIndexes()[getAdapterPosition()];
+                    // check that have selection before selection
+                    boolean beforExistsSelected = Static.exists(NoteAdapter.this.selectedIndexes, new Function1<Boolean, Boolean>() {
+                        @Override
+                        public Boolean function(Boolean item) {
+                            return item;
+                        }
+                    });
+                    // check that have selection after selection
+                    Boolean result = !NoteAdapter.this.getSelectedIndexes()[position];
+                    NoteAdapter.this.selectedIndexes[getAdapterPosition()] = result;
+                    NoteAdapter.this.getItemSelectedSignal().emit(position, result);
+                    boolean afterExistsSelected = Static.exists(NoteAdapter.this.selectedIndexes, new Function1<Boolean, Boolean>() {
+                        @Override
+                        public Boolean function(Boolean item) {
+                            return item;
+                        }
+                    });
+                    // if two of them are different that means, selection is changed. emit the signal
+                    if (beforExistsSelected != afterExistsSelected) {
+                        NoteAdapter.this.getItemSelectionChangedSignal().emit(afterExistsSelected);
+                    }
                     notifyItemChanged(position);
                 }
             });
@@ -102,9 +174,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             }
         }
 
-        @Override
-        public void onClick(View v) {
-            listItemClickListener.onListItemClick(model.index(getAdapterPosition(), 0), v);
-        }
+
     }
 }
