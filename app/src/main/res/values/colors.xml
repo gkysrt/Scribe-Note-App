@@ -7,6 +7,7 @@
     <color name="noteItemBackgroundColor">#333333</color>
     <color name="noteItemBackgroundSelectedColor">#BBBBBB</color>
     <color name="recyclerViewBackgroundColor">#202020</color>
+    <color name="lineBetweenSecondToolbarAndRecyclerView">#101010</color>
     <color name="noteItemTextColor">#DCDCDC</color>
 </resources>
 

@@ -7,4 +7,6 @@
     <string name="note_title_dummy">Dummy note title Kill butterflies wednesday</string>
     <string name="note_body_dummy">Dummy note body etc. so on. bla bla bla la la la trolololoo</string>
     <string name="note_date_dummy">26.09.2071</string>
+    <string name="create_note_title_dialog">Title</string>
+    <string name="create_note_body_dialog">Body</string>
 </resources>
