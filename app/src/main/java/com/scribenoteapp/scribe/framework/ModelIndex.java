@@ -1,8 +1,5 @@
 package com.scribenoteapp.scribe.framework;
 
-import com.scribenoteapp.scribe.framework.namespace.ItemDataModel;
-import com.scribenoteapp.scribe.framework.namespace.ItemFlag;
-
 /**
  * Created by Gokay on 16/01/2020.
  */
