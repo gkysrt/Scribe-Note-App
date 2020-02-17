@@ -144,8 +144,13 @@ public class NoteModel extends AbstractModel {
 
         if (index.isValid())
             return (BaseNote) index.data(ModelRole.USER_ROLE);
+        else
+            return this.currentFolder;
+    }
 
-        return this.currentFolder;
+    public void addItem(BaseNote baseNote) {
+        this.getCurrentFolder().addChild(baseNote);
+        this.getRowInsertedSignal().emit(new ModelIndex(), this.rowCount() - 1, this.rowCount() - 1);
     }
 
     public void addTagToItem(BaseNote item, String tag) {
@@ -156,7 +161,7 @@ public class NoteModel extends AbstractModel {
         item.removeTag(tag);
     }
 
-    public NoteFolder currentFolder() {
+    public NoteFolder getCurrentFolder() {
         return this.currentFolder;
     }
 
