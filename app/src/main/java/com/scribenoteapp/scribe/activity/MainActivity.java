@@ -6,6 +6,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +25,7 @@ import com.scribenoteapp.scribe.framework.namespace.ModelRole;
 import com.scribenoteapp.scribe.framework.slots.Function1;
 import com.scribenoteapp.scribe.framework.slots.Function2;
 import com.scribenoteapp.scribe.model.NoteModel;
+import com.scribenoteapp.scribe.model.note.Note;
 import com.scribenoteapp.scribe.model.note.NoteFolder;
 
 
@@ -48,7 +50,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recyclerViewToolbar.setVisibility(View.INVISIBLE);
+                Note note = new Note("Test", "Bu bir test");
+                MainActivity.this.model.addItem(note);
             }
         });
 
@@ -93,6 +96,20 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        Log.d("Bundle", savedInstanceState.getString("Test"));
+    }
+
+    // invoked when the activity may be temporarily destroyed, save the instance state here
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("Test", "Heyo");
+
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState);
     }
 
     @Override
