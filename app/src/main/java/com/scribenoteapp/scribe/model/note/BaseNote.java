@@ -15,7 +15,6 @@ public abstract class BaseNote implements Comparable<BaseNote> {
     private String creationDate;
     private String updateDate;
     private boolean isPinned;
-
     private List<String> tags;
 
     public BaseNote(String title, NoteFolder parent) {
@@ -25,6 +24,15 @@ public abstract class BaseNote implements Comparable<BaseNote> {
         this.isPinned = false;
         this.tags = new ArrayList<>();
         this.setParent(parent);
+    }
+
+    public String logicalPath() {
+        if (this.getParent() != null) {
+            return this.getParent().logicalPath() + '/' + this.getTitle();
+        } else {
+            return this.getTitle();
+        }
+
     }
 
     // TODO: need to implement a factory class
