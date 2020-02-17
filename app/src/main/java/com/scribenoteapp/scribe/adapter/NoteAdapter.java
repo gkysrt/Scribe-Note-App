@@ -16,6 +16,7 @@ import com.scribenoteapp.scribe.framework.signals.Signal1;
 import com.scribenoteapp.scribe.framework.signals.Signal2;
 import com.scribenoteapp.scribe.framework.slots.Function;
 import com.scribenoteapp.scribe.framework.slots.Function1;
+import com.scribenoteapp.scribe.framework.slots.Function3;
 import com.scribenoteapp.scribe.model.NoteModel;
 
 import java.util.Arrays;
@@ -51,6 +52,24 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 NoteAdapter.this.selectedIndexes = new Boolean[NoteAdapter.this.model.rowCount()];
                 Arrays.fill(NoteAdapter.this.selectedIndexes, Boolean.FALSE);
                 notifyDataSetChanged();
+                return null;
+            }
+        });
+
+        this.model.getRowInsertedSignal().connect("rowInsertedAdapter", new Function3<ModelIndex, Integer, Integer, Void>() {
+            @Override
+            public Void function(ModelIndex modelIndex, Integer integer, Integer integer2) {
+                Boolean[] selectedIndexes = new Boolean[NoteAdapter.this.model.rowCount()];
+                int j = 0;
+                for (int i = 0; i < integer; i++)
+                    selectedIndexes[i] = NoteAdapter.this.selectedIndexes[j++];
+                for (int i = integer; i < integer2 + 1; i++)
+                    selectedIndexes[i] = Boolean.FALSE;
+                for (int i = integer2 + 1; i < selectedIndexes.length; i++)
+                    selectedIndexes[i] = NoteAdapter.this.selectedIndexes[j++];
+
+                NoteAdapter.this.selectedIndexes = selectedIndexes;
+                NoteAdapter.this.notifyItemRangeChanged(integer, integer2 - integer + 1);
                 return null;
             }
         });
