@@ -25,6 +25,7 @@ import com.scribenoteapp.scribe.framework.namespace.ModelRole;
 import com.scribenoteapp.scribe.framework.slots.Function1;
 import com.scribenoteapp.scribe.framework.slots.Function2;
 import com.scribenoteapp.scribe.model.NoteModel;
+import com.scribenoteapp.scribe.model.note.BaseNote;
 import com.scribenoteapp.scribe.model.note.Note;
 import com.scribenoteapp.scribe.model.note.NoteFolder;
 
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Lower toolbar definition
         final Toolbar recyclerViewToolbar = findViewById(R.id.recycler_view_toolbar);
 
         // Define floating
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity
     public void initSignalsAndSlots()
     {
 
-        this.noteAdapter.getItemSelectedSignal().connect("recyclerViewSelectedItem", new Function2<Integer, Boolean, Void>() {
+        this.noteAdapter.itemSelectedSignal.connect("recyclerViewSelectedItem", new Function2<Integer, Boolean, Void>() {
             @Override
             public Void function(Integer position, Boolean aBoolean) {
                 // scroll item to ensure it is visible
@@ -110,18 +110,22 @@ public class MainActivity extends AppCompatActivity
                 return null;
             }
         });
-        this.noteAdapter.getItemClickedSignal().connect("modelChangeClickedItem", new Function1<ModelIndex, Void>() {
+        this.noteAdapter.itemClickedSignal.connect("modelChangeClickedItem", new Function1<ModelIndex, Void>() {
             @Override
             public Void function(ModelIndex modelIndex) {
-                Object baseNote = modelIndex.data(ModelRole.USER_ROLE);
+                BaseNote baseNote = (BaseNote) modelIndex.data(ModelRole.USER_ROLE);
                 if (baseNote instanceof NoteFolder) {
                     NoteModel model = (NoteModel) modelIndex.model();
-                    model.setCurrentFolder(modelIndex);
+                    model.setCurrentFolder((NoteFolder) baseNote);
                 }
                 return null;
             }
         });
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
+
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         Log.d("Bundle", savedInstanceState.getString("Test"));
@@ -141,7 +145,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else if (this.model.getCurrentFolder() != this.model.rootFolder())
+        {
+            this.model.setCurrentFolder(this.model.getCurrentFolder().getParent());
+        }
+        else {
             super.onBackPressed();
         }
     }
