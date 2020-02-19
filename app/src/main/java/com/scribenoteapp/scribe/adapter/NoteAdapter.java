@@ -25,6 +25,17 @@ import java.util.Arrays;
  * Created by ALLDe on 13/01/2020.
  */
 
+/**
+ * <h1 style="background-color: rgb(128, 128, 128); color: white; text-align:center;">Scribe</h1>
+ * <h2>NoteAdapter</h2>
+ * <div>
+ *     <p>
+ *         <b>Dependencies:</b> NoteModel
+ *     </p>
+ *     <p>
+ *         <b>Signals:</b> itemSelectionChangedSignal, itemClickedSignal, itemSelectedSignal
+ *     </p>
+ */
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
     private NoteModel model;
@@ -46,6 +57,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
     private void initSignalsAndSlots() {
+        // Model's reset signal is connected to a redraw function
         this.model.getModelResetSignal().connect("modelResetNoteAdapter", new Function<Void>() {
             @Override
             public Void function() {

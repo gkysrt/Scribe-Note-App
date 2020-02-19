@@ -11,17 +11,16 @@
     android:paddingEnd="4dp">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@drawable/circle_background"
-        android:layout_weight="16"
         android:layout_margin="@dimen/rv_item_header_img_margin"
         android:padding="@dimen/rv_item_header_img_padding"
         android:src="@drawable/ic_folder_icon"
         android:id="@+id/note_icon"/>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:id="@+id/inner_layout"
         android:paddingTop="8dp"
