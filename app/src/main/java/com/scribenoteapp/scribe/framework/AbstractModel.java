@@ -9,26 +9,14 @@ import com.scribenoteapp.scribe.framework.signals.Signal3;
  */
 
 public abstract class AbstractModel {
-    private Signal modelResetSignal;
-    private Signal3<ModelIndex, Integer, Integer> rowInsertedSignal;
-    private Signal3<ModelIndex, Integer, Integer> rowRemovedSignal;
+    public final Signal modelResetSignal;
+    public final Signal3<ModelIndex, Integer, Integer> rowInsertedSignal;
+    public final Signal3<ModelIndex, Integer, Integer> rowRemovedSignal;
 
     public AbstractModel() {
         this.modelResetSignal = new Signal();
         this.rowInsertedSignal = new Signal3<>();
         this.rowRemovedSignal = new Signal3<>();
-    }
-
-    public Signal getModelResetSignal() {
-        return this.modelResetSignal;
-    }
-
-    public Signal3<ModelIndex, Integer, Integer> getRowInsertedSignal() {
-        return this.rowInsertedSignal;
-    }
-
-    public Signal3<ModelIndex, Integer, Integer> getRowRemovedSignal() {
-        return this.rowRemovedSignal;
     }
 
     public abstract ModelIndex index(int row, int column, ModelIndex parent);

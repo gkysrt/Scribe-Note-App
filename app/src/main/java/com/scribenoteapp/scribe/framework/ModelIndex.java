@@ -94,4 +94,9 @@ public class ModelIndex {
     {
         return this.isValid() ? this.model().createIndex(this.row(), column, this.internalPointer()) : new ModelIndex();
     }
+
+    @Override
+    public String toString() {
+        return "<\t" + "(" + this.row() + ", " + this.column() + ")\t" + super.toString() + "\t>";
+    }
 }

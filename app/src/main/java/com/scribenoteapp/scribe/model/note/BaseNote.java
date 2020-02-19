@@ -87,6 +87,7 @@ public abstract class BaseNote implements Comparable<BaseNote> {
     }
 
     public int getPosition() {
+        // If item is not found inside the parent or does not have a parent, function returns -1
         return (this.getParent() != null) ? this.getParent().indexOf(this) : -1;
     }
 

@@ -1,12 +1,13 @@
 package com.scribenoteapp.scribe.model;
 
 
+import android.util.Log;
+
 import com.scribenoteapp.scribe.R;
 
 import com.scribenoteapp.scribe.framework.AbstractModel;
 import com.scribenoteapp.scribe.framework.ModelIndex;
 import com.scribenoteapp.scribe.framework.namespace.ModelRole;
-import com.scribenoteapp.scribe.framework.signals.Signal;
 import com.scribenoteapp.scribe.model.note.BaseNote;
 import com.scribenoteapp.scribe.model.note.Note;
 import com.scribenoteapp.scribe.model.note.NoteFolder;
@@ -17,36 +18,29 @@ import java.util.ArrayList;
  * Created by ALLDe on 15/01/2020.
  */
 public class NoteModel extends AbstractModel {
-    private NoteFolder rootFolder;
     private NoteFolder currentFolder;
     private ArrayList<String> tags;
     private String[] headerData;
 
     public NoteModel() {
         super();
-        this.rootFolder = new NoteFolder("/", null);
-        this.currentFolder = this.rootFolder;
+        this.currentFolder = new NoteFolder("/", null);
         this.tags = new ArrayList<>();
         this.headerData = new String[]{"Title", "Body", "Logo", "Pinned"};
         // TODO: SİLİNCEK
         this.init();
     }
 
-
     public void init() {
-        rootFolder.addChild(new Note("kill meeeeeee", "PLEASE!!!!"));
-        NoteFolder folder = new NoteFolder("asd", rootFolder);
+        this.rootFolder().addChild(new Note("kill meeeeeee", "PLEASE!!!!"));
+        NoteFolder folder = new NoteFolder("asd", this.rootFolder());
         new Note("bu bir iç note", "İç Note", folder);
     }
 
-    public void setCurrentFolder(ModelIndex index) {
-        if (index.isValid()) {
-            Object baseNote = index.data(ModelRole.USER_ROLE);
-            if (baseNote instanceof NoteFolder) {
-                this.currentFolder = (NoteFolder) baseNote;
-                this.getModelResetSignal().emit();
-            }
-        }
+    public void setCurrentFolder(NoteFolder folder) {
+        // Input parameter should be of NoteFolder or we shouldn't check for validness of the index
+        this.currentFolder = folder;
+        this.modelResetSignal.emit();
     }
 
     @Override
@@ -75,7 +69,6 @@ public class NoteModel extends AbstractModel {
 
     @Override
     public Object data(ModelIndex index, int role) {
-
         BaseNote item = (BaseNote) index.internalPointer();
 
         if (role == ModelRole.DISPLAY_ROLE)
@@ -84,7 +77,6 @@ public class NoteModel extends AbstractModel {
         else if (role == ModelRole.USER_ROLE) {
             return item;
         }
-
         return null;
     }
 
@@ -148,9 +140,27 @@ public class NoteModel extends AbstractModel {
             return this.currentFolder;
     }
 
+    public ModelIndex itemToIndex(BaseNote note)
+    {
+        if (note == null)
+            return new ModelIndex();
+
+        else if(note == this.currentFolder)
+            return new ModelIndex();
+
+        else
+        {
+            int position = note.getPosition();
+            if (position != -1)
+                return this.createIndex(position, 0, note);
+
+            return new ModelIndex();
+        }
+    }
+
     public void addItem(BaseNote baseNote) {
         this.getCurrentFolder().addChild(baseNote);
-        this.getRowInsertedSignal().emit(new ModelIndex(), this.rowCount() - 1, this.rowCount() - 1);
+        this.rowInsertedSignal.emit(new ModelIndex(), this.rowCount() - 1, this.rowCount() - 1);
     }
 
     public void addTagToItem(BaseNote item, String tag) {
@@ -165,8 +175,15 @@ public class NoteModel extends AbstractModel {
         return this.currentFolder;
     }
 
-    public NoteFolder rootFolder() {
-        return this.rootFolder;
+    public NoteFolder rootFolder()
+    {
+        NoteFolder folder = this.getCurrentFolder();
+        while (folder.getParent() != null)
+        {
+            folder = folder.getParent();
+        }
+
+        return folder;
     }
 
 

@@ -39,10 +39,10 @@ import java.util.Arrays;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
     private NoteModel model;
-    private Signal1<ModelIndex> itemClickedSignal;
+    public final Signal1<Boolean> itemSelectionChangedSignal;
+    public final Signal1<ModelIndex> itemClickedSignal;
+    public final Signal2<Integer, Boolean> itemSelectedSignal;
     private Boolean[] selectedIndexes;
-    private Signal1<Boolean> itemSelectionChangedSignal;
-    private Signal2<Integer, Boolean> itemSelectedSignal;
 
     public NoteAdapter(NoteModel model) {
         this.model = model;
@@ -58,7 +58,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     private void initSignalsAndSlots() {
         // Model's reset signal is connected to a redraw function
-        this.model.getModelResetSignal().connect("modelResetNoteAdapter", new Function<Void>() {
+        this.model.modelResetSignal.connect("modelResetNoteAdapter", new Function<Void>() {
             @Override
             public Void function() {
                 NoteAdapter.this.selectedIndexes = new Boolean[NoteAdapter.this.model.rowCount()];
@@ -68,7 +68,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             }
         });
 
-        this.model.getRowInsertedSignal().connect("rowInsertedAdapter", new Function3<ModelIndex, Integer, Integer, Void>() {
+        this.model.rowInsertedSignal.connect("rowInsertedAdapter", new Function3<ModelIndex, Integer, Integer, Void>() {
             @Override
             public Void function(ModelIndex modelIndex, Integer integer, Integer integer2) {
                 Boolean[] selectedIndexes = new Boolean[NoteAdapter.this.model.rowCount()];
@@ -132,7 +132,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         return model.rowCount();
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         holder.bind(this.model.index(position, 0));
@@ -158,7 +157,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 @Override
                 public void onClick(View v) {
                     ModelIndex index = NoteAdapter.this.model.index(getAdapterPosition(), 0);
-                    NoteAdapter.this.getItemClickedSignal().emit(index);
+                    NoteAdapter.this.itemClickedSignal.emit(index);
                 }
             });
             this.noteIcon.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +174,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                     // check that have selection after selection
                     Boolean result = !NoteAdapter.this.getSelectedIndexes()[position];
                     NoteAdapter.this.selectedIndexes[getAdapterPosition()] = result;
-                    NoteAdapter.this.getItemSelectedSignal().emit(position, result);
+                    NoteAdapter.this.itemSelectedSignal.emit(position, result);
                     boolean afterExistsSelected = Static.exists(NoteAdapter.this.selectedIndexes, new Function1<Boolean, Boolean>() {
                         @Override
                         public Boolean function(Boolean item) {
@@ -184,7 +183,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                     });
                     // if two of them are different that means, selection is changed. emit the signal
                     if (beforExistsSelected != afterExistsSelected) {
-                        NoteAdapter.this.getItemSelectionChangedSignal().emit(afterExistsSelected);
+                        NoteAdapter.this.itemSelectionChangedSignal.emit(afterExistsSelected);
                     }
                     notifyItemChanged(position);
                 }
