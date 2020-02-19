@@ -6,5 +6,5 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="rv_item_header_img_margin">10dp</dimen>
-    <dimen name="rv_item_header_img_padding">10dp</dimen>
+    <dimen name="rv_item_header_img_padding">12dp</dimen>
 </resources>

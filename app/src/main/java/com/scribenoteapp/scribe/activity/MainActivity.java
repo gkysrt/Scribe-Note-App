@@ -27,51 +27,79 @@ import com.scribenoteapp.scribe.model.NoteModel;
 import com.scribenoteapp.scribe.model.note.NoteFolder;
 
 
+/**
+ *
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    // Defining the variables of main activity
+    private NoteAdapter noteAdapter;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private NoteModel model;
+    private FloatingActionButton fab;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private SwipeController swipeController;
+    private ItemTouchHelper itemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Add customized toolbar view to MainActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Lower toolbar definition
         final Toolbar recyclerViewToolbar = findViewById(R.id.recycler_view_toolbar);
 
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // Define floating
+        this.fab = findViewById(R.id.fab);
+        this.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 recyclerViewToolbar.setVisibility(View.INVISIBLE);
             }
         });
 
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        // Get drawer layout  and add assign a toggle
+        this.drawer = findViewById(R.id.drawer_layout);
+        this.toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        this.drawer.addDrawerListener(toggle);
+        this.toggle.syncState();
 
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setLayoutManager(layoutManager);
-        SwipeController swipeController = new SwipeController();
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeController);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-        model = new NoteModel();
+        // LinearLayoutManager instantiated and RecyclerView is reached from R
+        this.layoutManager = new LinearLayoutManager(this);
+        this.recyclerView = findViewById(R.id.recycler_view);
 
-        NoteAdapter noteAdapter = new NoteAdapter(model);
-        recyclerView.setAdapter(noteAdapter);
+        // Added seperation decoration to recyclerView and LayoutManager is set
+        this.recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        this.recyclerView.setLayoutManager(layoutManager);
 
-        noteAdapter.getItemSelectedSignal().connect("recyclerViewSelectedItem", new Function2<Integer, Boolean, Void>() {
+        // SwipeController is instantiated for recyclerView
+        this.swipeController = new SwipeController();
+        this.itemTouchHelper = new ItemTouchHelper(swipeController);
+        this.itemTouchHelper.attachToRecyclerView(recyclerView);
+        this.model = new NoteModel();
+
+        // Instantiate adapter with model then set as RecyclerView's adapter
+        this.noteAdapter = new NoteAdapter(this.model);
+        this.recyclerView.setAdapter(this.noteAdapter);
+
+        this.initSignalsAndSlots();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void initSignalsAndSlots()
+    {
+
+        this.noteAdapter.getItemSelectedSignal().connect("recyclerViewSelectedItem", new Function2<Integer, Boolean, Void>() {
             @Override
             public Void function(Integer position, Boolean aBoolean) {
                 // scroll item to ensure it is visible
@@ -79,7 +107,7 @@ public class MainActivity extends AppCompatActivity
                 return null;
             }
         });
-        noteAdapter.getItemClickedSignal().connect("modelChangeClickedItem", new Function1<ModelIndex, Void>() {
+        this.noteAdapter.getItemClickedSignal().connect("modelChangeClickedItem", new Function1<ModelIndex, Void>() {
             @Override
             public Void function(ModelIndex modelIndex) {
                 Object baseNote = modelIndex.data(ModelRole.USER_ROLE);
@@ -90,11 +118,7 @@ public class MainActivity extends AppCompatActivity
                 return null;
             }
         });
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
