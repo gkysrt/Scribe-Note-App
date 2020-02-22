@@ -37,16 +37,17 @@ public class EditActivity extends AppCompatActivity {
 
         // Get intent that started this activity and check if a note object is sent
         Intent intentStartedThisActivity = this.getIntent();
+
         this.noteObjectToReturn = new Note(null, null, null);
-        row = -1;
-        if (intentStartedThisActivity.hasExtra("clickedNote") && intentStartedThisActivity.hasExtra("noteRow"))
+        if (intentStartedThisActivity.hasExtra("clickedNote"))
         {
             noteObjectToReturn = (Note) intentStartedThisActivity.getParcelableExtra("clickedNote");
             this.bodyEditText.setText(noteObjectToReturn.getBody());
             this.titleEditText.setText(noteObjectToReturn.getTitle());
-            this.row = intentStartedThisActivity.getIntExtra("noteRow", -1);
             // Some other gui setup according to the input will be added here (e.g attachment visuals)
         }
+
+        this.row = intentStartedThisActivity.getIntExtra("noteRow", -1);
     }
 
     public void setupUi()

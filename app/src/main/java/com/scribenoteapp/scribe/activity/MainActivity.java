@@ -216,6 +216,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
+        if (requestCode == 1)
+        {
+            if (resultCode == Activity.RESULT_OK)
+            {
+                if (data.hasExtra("noteResult"))
+                {
+                    Note resultNoteObject = data.getParcelableExtra("noteResult");
+                    this.model.addItem(resultNoteObject);
+                }
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -238,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.new_note_button) {
             Intent intentToStartEditNoteActivity = new Intent(this, EditActivity.class);
-            startActivity(intentToStartEditNoteActivity);
+            startActivityForResult(intentToStartEditNoteActivity, 1);
         }
 
         return super.onOptionsItemSelected(item);
