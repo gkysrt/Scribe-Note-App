@@ -20,6 +20,7 @@ import com.scribenoteapp.scribe.framework.slots.Function3;
 import com.scribenoteapp.scribe.model.NoteModel;
 
 import java.util.Arrays;
+import java.util.TimerTask;
 
 /**
  * Created by ALLDe on 13/01/2020.
@@ -97,18 +98,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    public Signal1<Boolean> getItemSelectionChangedSignal() {
-        return this.itemSelectionChangedSignal;
-    }
-
-    public Signal2<Integer, Boolean> getItemSelectedSignal() {
-        return this.itemSelectedSignal;
-    }
-
-    public Signal1<ModelIndex> getItemClickedSignal() {
-        return this.itemClickedSignal;
     }
 
     public Boolean[] getSelectedIndexes() {

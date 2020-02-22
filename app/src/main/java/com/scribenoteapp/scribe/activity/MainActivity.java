@@ -38,6 +38,9 @@ import com.scribenoteapp.scribe.model.note.NoteFolder;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private final int REQUEST_EDIT_NOTE = 0;
+    private final int REQUEST_NEW_NOTE = 1;
+
     // Defining the variables of main activity
     private NoteAdapter noteAdapter;
     private LinearLayoutManager layoutManager;
@@ -164,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intentToStartEditNoteActivity = new Intent(MainActivity.this, EditActivity.class);
                     intentToStartEditNoteActivity.putExtra("clickedNote", MainActivity.this.model.getItem(modelIndex));
                     intentToStartEditNoteActivity.putExtra("noteRow", modelIndex.row());
-                    MainActivity.this.startActivityForResult(intentToStartEditNoteActivity, 0);
+                    MainActivity.this.startActivityForResult(intentToStartEditNoteActivity, MainActivity.this.REQUEST_EDIT_NOTE);
                 }
                 return null;
             }
@@ -204,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
     // Here MainActivity handles any result and data returned from a child activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0)
+        if (requestCode == this.REQUEST_EDIT_NOTE)
         {
             if (resultCode == Activity.RESULT_OK)
             {
@@ -217,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (requestCode == 1)
+        if (requestCode == this.REQUEST_NEW_NOTE)
         {
             if (resultCode == Activity.RESULT_OK)
             {
@@ -250,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.new_note_button) {
             Intent intentToStartEditNoteActivity = new Intent(this, EditActivity.class);
-            startActivityForResult(intentToStartEditNoteActivity, 1);
+            startActivityForResult(intentToStartEditNoteActivity, this.REQUEST_NEW_NOTE);
         }
 
         return super.onOptionsItemSelected(item);
