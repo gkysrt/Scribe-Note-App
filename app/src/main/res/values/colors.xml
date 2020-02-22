@@ -4,8 +4,9 @@
     <color name="secondMenuColor">#404040</color>
     <color name="createNoteFloatButtonColor">#78ADFF</color>
     <color name="noteIconBackgroundColor">#505050</color>
+    <color name="noteIconBackgroundSelectionColor">#00B4FF</color>
     <color name="noteItemBackgroundColor">#333333</color>
-    <color name="noteItemBackgroundSelectedColor">#BBBBBB</color>
+    <color name="noteItemBackgroundSelectedColor">#5C5C5C</color>
     <color name="recyclerViewBackgroundColor">#202020</color>
     <color name="lineBetweenSecondToolbarAndRecyclerView">#101010</color>
     <color name="noteItemTextColor">#DCDCDC</color>

@@ -165,7 +165,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     // check that have selection before selection
-                    boolean beforExistsSelected = Static.exists(NoteAdapter.this.selectedIndexes, new Function1<Boolean, Boolean>() {
+                    boolean beforeExistsSelected = Static.exists(NoteAdapter.this.selectedIndexes, new Function1<Boolean, Boolean>() {
                         @Override
                         public Boolean function(Boolean item) {
                             return item;
@@ -182,7 +182,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                         }
                     });
                     // if two of them are different that means, selection is changed. emit the signal
-                    if (beforExistsSelected != afterExistsSelected) {
+                    if (beforeExistsSelected != afterExistsSelected) {
                         NoteAdapter.this.itemSelectionChangedSignal.emit(afterExistsSelected);
                     }
                     notifyItemChanged(position);
@@ -197,10 +197,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
             if (NoteAdapter.this.selectedIndexes[getAdapterPosition()]) {
                 this.itemView.setBackgroundColor(this.itemView.getResources().getColor(R.color.noteItemBackgroundSelectedColor));
-                this.noteIcon.setImageResource(R.drawable.ic_check_circle_black_24dp);
+                this.noteIcon.setImageResource(R.drawable.ic_check_white_24dp);
+                this.noteIcon.setBackgroundResource(R.drawable.selection_circle_background);
             } else {
                 this.itemView.setBackgroundColor(this.itemView.getResources().getColor(R.color.noteItemBackgroundColor));
                 this.noteIcon.setImageResource((Integer) index.siblingAtColumn(3).data());
+                this.noteIcon.setBackgroundResource(R.drawable.circle_background);
             }
         }
 
