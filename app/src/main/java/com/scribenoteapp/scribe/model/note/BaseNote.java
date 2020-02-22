@@ -1,5 +1,7 @@
 package com.scribenoteapp.scribe.model.note;
 
+import android.os.Parcelable;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,7 +11,7 @@ import java.util.List;
  * Created by ALLDe on 14/01/2020.
  */
 
-public abstract class BaseNote implements Comparable<BaseNote> {
+public abstract class BaseNote implements Comparable<BaseNote>, Parcelable {
     private NoteFolder parent;
     private String title;
     private String creationDate;
@@ -17,7 +19,7 @@ public abstract class BaseNote implements Comparable<BaseNote> {
     private boolean isPinned;
     private List<String> tags;
 
-    public BaseNote(String title, NoteFolder parent) {
+    BaseNote(String title, NoteFolder parent) {
         this.creationDate = SimpleDateFormat.getDateTimeInstance().format(new Date());
         this.updateDate = creationDate;
         this.title = title;
@@ -104,6 +106,23 @@ public abstract class BaseNote implements Comparable<BaseNote> {
     public void setTitle(String title) {
         this.title = title;
         this.updateDate();
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public void setIsPinned(boolean isPinned)
+    {
+        this.isPinned = isPinned;
     }
 
     public NoteFolder getParent() {

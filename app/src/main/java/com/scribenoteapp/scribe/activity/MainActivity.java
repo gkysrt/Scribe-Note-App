@@ -1,5 +1,6 @@
 package com.scribenoteapp.scribe.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
@@ -56,8 +57,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final Toolbar recyclerViewToolbar = findViewById(R.id.recycler_view_toolbar);
-
         // Define floating
         this.fab = findViewById(R.id.fab);
         this.fab.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +98,16 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    public void setupUi()
+    {
+
+    }
+
+    public void initListeners()
+    {
+
+    }
+
     public void initSignalsAndSlots()
     {
 
@@ -110,13 +119,19 @@ public class MainActivity extends AppCompatActivity
                 return null;
             }
         });
+
         this.noteAdapter.itemClickedSignal.connect("modelChangeClickedItem", new Function1<ModelIndex, Void>() {
             @Override
             public Void function(ModelIndex modelIndex) {
                 BaseNote baseNote = (BaseNote) modelIndex.data(ModelRole.USER_ROLE);
                 if (baseNote instanceof NoteFolder) {
-                    NoteModel model = (NoteModel) modelIndex.model();
-                    model.setCurrentFolder((NoteFolder) baseNote);
+                    MainActivity.this.model.setCurrentFolder((NoteFolder) baseNote);
+                }
+                else
+                {
+                    Intent intentToStartEditNoteActivity = new Intent(MainActivity.this, EditActivity.class);
+                    intentToStartEditNoteActivity.putExtra("clickedNote", MainActivity.this.model.getItem(modelIndex));
+                    MainActivity.this.startActivity(intentToStartEditNoteActivity);
                 }
                 return null;
             }
@@ -171,8 +186,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.new_note_button) {
+            Intent intentToStartEditNoteActivity = new Intent(this, EditActivity.class);
+            startActivity(intentToStartEditNoteActivity);
         }
 
         return super.onOptionsItemSelected(item);

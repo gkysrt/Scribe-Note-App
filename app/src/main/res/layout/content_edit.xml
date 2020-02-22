@@ -1,11 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.scribenoteapp.scribe.activity.EditActivity"
-    tools:showIn="@layout/activity_edit">
+    tools:showIn="@layout/activity_edit"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+        <EditText
+            android:id="@+id/create_note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/create_note_title_dialog"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:importantForAutofill="no"
+            android:textSize="@dimen/edit_text_title_font_size"
+            android:textStyle="bold"
+            />
+
+        <EditText
+            android:id="@+id/create_note_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/create_note_body_dialog"
+            android:inputType="textMultiLine"
+            android:gravity="start"
+            android:scrollbars="vertical"
+            android:importantForAutofill="no"
+            android:textSize="@dimen/edit_text_body_font_size"
+            />
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
+
+</FrameLayout>
