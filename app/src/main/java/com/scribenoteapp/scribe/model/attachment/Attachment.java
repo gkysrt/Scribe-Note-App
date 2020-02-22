@@ -1,8 +1,4 @@
 package com.scribenoteapp.scribe.model.attachment;
-
-import android.graphics.drawable.Icon;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 /**
