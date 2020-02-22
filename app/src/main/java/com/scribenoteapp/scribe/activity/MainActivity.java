@@ -2,6 +2,7 @@ package com.scribenoteapp.scribe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,8 +35,7 @@ import com.scribenoteapp.scribe.model.note.NoteFolder;
 /**
  *
  */
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     // Defining the variables of main activity
     private NoteAdapter noteAdapter;
@@ -47,25 +47,34 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle toggle;
     private SwipeController swipeController;
     private ItemTouchHelper itemTouchHelper;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Start by instantiating the model
+        this.model = new NoteModel();
+
+        // Setup Ui and attach necessary bindings
+        this.setupUi();
+
+        // Set listeners
+        this.initListeners();
+
+        // Bind signals to relevant slot functions
+        this.initSignalsAndSlots();
+    }
+
+    public void setupUi()
+    {
         // Add customized toolbar view to MainActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Define floating
         this.fab = findViewById(R.id.fab);
-        this.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Note note = new Note("Test", "Bu bir test");
-                MainActivity.this.model.addItem(note);
-            }
-        });
 
         // Get drawer layout  and add assign a toggle
         this.drawer = findViewById(R.id.drawer_layout);
@@ -78,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         this.layoutManager = new LinearLayoutManager(this);
         this.recyclerView = findViewById(R.id.recycler_view);
 
-        // Added seperation decoration to recyclerView and LayoutManager is set
+        // Added separation decoration to recyclerView and LayoutManager is set
         this.recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         this.recyclerView.setLayoutManager(layoutManager);
 
@@ -86,26 +95,49 @@ public class MainActivity extends AppCompatActivity
         this.swipeController = new SwipeController();
         this.itemTouchHelper = new ItemTouchHelper(swipeController);
         this.itemTouchHelper.attachToRecyclerView(recyclerView);
-        this.model = new NoteModel();
 
         // Instantiate adapter with model then set as RecyclerView's adapter
         this.noteAdapter = new NoteAdapter(this.model);
         this.recyclerView.setAdapter(this.noteAdapter);
-
-        this.initSignalsAndSlots();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    public void setupUi()
-    {
-
+        this.navigationView = findViewById(R.id.nav_view);
     }
 
     public void initListeners()
     {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @SuppressWarnings("StatementWithEmptyBody")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                // Handle navigation view item clicks here.
+                int id = item.getItemId();
 
+                if (id == R.id.nav_camera) {
+                    // Handle the camera action
+                } else if (id == R.id.nav_gallery) {
+
+                } else if (id == R.id.nav_slideshow) {
+
+                } else if (id == R.id.nav_manage) {
+
+                } else if (id == R.id.nav_share) {
+
+                } else if (id == R.id.nav_send) {
+
+                }
+
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
+        this.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Note note = new Note("Test", "Bu bir test");
+                MainActivity.this.model.addItem(note);
+            }
+        });
     }
 
     public void initSignalsAndSlots()
@@ -136,9 +168,6 @@ public class MainActivity extends AppCompatActivity
                 return null;
             }
         });
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -170,7 +199,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // Here MainActivity handles any result and data returned from a child activity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
+    // Here MainActivity creates its related menus, e.g '+' button on toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -178,6 +213,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    // Here MainActivity handles clicks on menu items, e.g '+' button on toolbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -192,31 +228,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
 }
