@@ -1,8 +1,10 @@
 package com.scribenoteapp.scribe.framework;
 
 import com.scribenoteapp.scribe.framework.namespace.ItemFlag;
+import com.scribenoteapp.scribe.framework.namespace.ModelRole;
 import com.scribenoteapp.scribe.framework.signals.Signal;
 import com.scribenoteapp.scribe.framework.signals.Signal3;
+import com.scribenoteapp.scribe.model.note.BaseNote;
 
 /**
  * Created by Gokay on 16/01/2020.
@@ -26,6 +28,16 @@ public abstract class AbstractModel {
     public abstract Object data(ModelIndex index, int role);
 
     public abstract Object data(ModelIndex index);
+
+    public boolean setData(ModelIndex index, Object obj, int role)
+    {
+        return false;
+    }
+
+    public boolean setData(ModelIndex index, Object obj)
+    {
+        return false;
+    }
 
     public abstract int rowCount(ModelIndex parent);
 

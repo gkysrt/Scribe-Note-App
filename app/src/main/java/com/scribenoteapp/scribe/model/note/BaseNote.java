@@ -66,11 +66,6 @@ public abstract class BaseNote implements Comparable<BaseNote>, Parcelable {
         this.updateDate();
     }
 
-    public void setTags(ArrayList<String> tags) {
-        this.tags = tags;
-        this.updateDate();
-    }
-
     public String filename() {
         return this.title;
     }
@@ -118,11 +113,6 @@ public abstract class BaseNote implements Comparable<BaseNote>, Parcelable {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
-    }
-
-    public void setIsPinned(boolean isPinned)
-    {
-        this.isPinned = isPinned;
     }
 
     public NoteFolder getParent() {

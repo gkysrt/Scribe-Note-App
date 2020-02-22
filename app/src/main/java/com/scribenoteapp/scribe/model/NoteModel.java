@@ -1,10 +1,7 @@
 package com.scribenoteapp.scribe.model;
 
 
-import android.util.Log;
-
 import com.scribenoteapp.scribe.R;
-
 import com.scribenoteapp.scribe.framework.AbstractModel;
 import com.scribenoteapp.scribe.framework.ModelIndex;
 import com.scribenoteapp.scribe.framework.namespace.ModelRole;
@@ -101,6 +98,55 @@ public class NoteModel extends AbstractModel {
         } else {
             return 0;
         }
+
+    }
+
+    @Override
+    public boolean setData(ModelIndex index, Object note, int role) {
+        if (role == ModelRole.EDIT_ROLE)
+        {
+            if (note instanceof Note)
+            {
+                Note noteToUpdate = (Note) this.getItem(index);
+                noteToUpdate.setPinned(((Note) note).getIsPinned());
+                noteToUpdate.setTitle(((Note) note).getTitle());
+                noteToUpdate.setBody(((Note) note).getBody());
+                noteToUpdate.setTags(((Note) note).getTags());
+            }
+            else if (note instanceof NoteFolder)
+            {
+                NoteFolder folderToUpdate = (NoteFolder) this.getItem(index);
+                folderToUpdate.setPinned(((NoteFolder) note).getIsPinned());
+                folderToUpdate.setTags(((NoteFolder) note).getTags());
+                folderToUpdate.setTitle(((NoteFolder) note).getTitle());
+            }
+
+            this.modelResetSignal.emit();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setData(ModelIndex index, Object note) {
+        if (note instanceof Note)
+        {
+            Note noteToUpdate = (Note) this.getItem(index);
+            noteToUpdate.setPinned(((Note) note).getIsPinned());
+            noteToUpdate.setTitle(((Note) note).getTitle());
+            noteToUpdate.setBody(((Note) note).getBody());
+            noteToUpdate.setTags(((Note) note).getTags());
+        }
+        else if (note instanceof NoteFolder)
+        {
+            NoteFolder folderToUpdate = (NoteFolder) this.getItem(index);
+            folderToUpdate.setPinned(((NoteFolder) note).getIsPinned());
+            folderToUpdate.setTags(((NoteFolder) note).getTags());
+            folderToUpdate.setTitle(((NoteFolder) note).getTitle());
+        }
+
+        this.modelResetSignal.emit();
+        return true;
 
     }
 

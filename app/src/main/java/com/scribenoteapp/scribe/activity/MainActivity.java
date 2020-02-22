@@ -1,5 +1,6 @@
 package com.scribenoteapp.scribe.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -142,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void initSignalsAndSlots()
     {
-
         this.noteAdapter.itemSelectedSignal.connect("recyclerViewSelectedItem", new Function2<Integer, Boolean, Void>() {
             @Override
             public Void function(Integer position, Boolean aBoolean) {
@@ -163,7 +163,8 @@ public class MainActivity extends AppCompatActivity {
                 {
                     Intent intentToStartEditNoteActivity = new Intent(MainActivity.this, EditActivity.class);
                     intentToStartEditNoteActivity.putExtra("clickedNote", MainActivity.this.model.getItem(modelIndex));
-                    MainActivity.this.startActivity(intentToStartEditNoteActivity);
+                    intentToStartEditNoteActivity.putExtra("noteRow", modelIndex.row());
+                    MainActivity.this.startActivityForResult(intentToStartEditNoteActivity, 0);
                 }
                 return null;
             }
@@ -175,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Bundle", savedInstanceState.getString("Test"));
     }
 
-    // invoked when the activity may be temporarily destroyed, save the instance state here
+    // Invoked when the activity may be temporarily destroyed, save the instance state here
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString("Test", "Heyo");
@@ -184,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    // Invoked when user presses back button on MainActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -202,6 +204,18 @@ public class MainActivity extends AppCompatActivity {
     // Here MainActivity handles any result and data returned from a child activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0)
+        {
+            if (resultCode == Activity.RESULT_OK)
+            {
+                if(data.hasExtra("noteResult") && data.hasExtra("noteRow"))
+                {
+                    int noteRowToChange = data.getIntExtra("noteRow", -1);
+                    Note resultNoteObject = data.getParcelableExtra("noteResult");
+                    this.model.setData(this.model.index(noteRowToChange, 0), resultNoteObject);
+                }
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 

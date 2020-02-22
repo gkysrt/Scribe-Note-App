@@ -38,7 +38,7 @@ public class NoteFolder extends BaseNote {
         this.setUpdateDate(strings[2]);
         this.setTags(tags);
 
-        this.setIsPinned(booleans[0]);
+        this.setPinned(booleans[0]);
     }
 
     @Override

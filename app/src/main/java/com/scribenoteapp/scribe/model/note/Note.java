@@ -52,7 +52,7 @@ public class Note extends BaseNote {
         this.setUpdateDate(strings[3]);
         this.setTags(tags);
 
-        this.setIsPinned(booleans[0]);
+        this.setPinned(booleans[0]);
 
         this.attachments = (Map<AttachmentTypes, ArrayList<Attachment>>) in.readSerializable();
 //        this.setParent((NoteFolder) in.readParcelable(NoteFolder.class.getClassLoader()));
