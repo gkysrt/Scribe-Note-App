@@ -1,51 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.scribenoteapp.scribe.activity.EditActivity"
-    tools:showIn="@layout/activity_edit"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
-    <LinearLayout
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.EditActivity"
+    tools:showIn="@layout/activity_edit">
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/create_note_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/create_note_title_dialog"
-            android:inputType="text"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:importantForAutofill="no"
-            android:textSize="@dimen/edit_text_title_font_size"
-            android:textStyle="bold"
-            />
-
-        <EditText
-            android:id="@+id/create_note_body"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/create_note_body_dialog"
-            android:inputType="textMultiLine"
-            android:gravity="start"
-            android:scrollbars="vertical"
-            android:importantForAutofill="no"
-            android:textSize="@dimen/edit_text_body_font_size"
-            />
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@string/large_text" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_check_white_24dp" />
+            <EditText
+                android:id="@+id/create_note_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/create_note_title_dialog"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:importantForAutofill="no"
+                android:textSize="@dimen/edit_text_title_font_size"
+                android:textStyle="bold" />
 
-</FrameLayout>
+            <EditText
+                android:id="@+id/create_note_body"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/create_note_body_dialog"
+                android:inputType="textMultiLine"
+                android:gravity="start"
+                android:scrollbars="vertical"
+                android:importantForAutofill="no"
+                android:textSize="@dimen/edit_text_body_font_size" />
+
+        </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_check_white_24dp" />
+    </FrameLayout>
+
+</android.support.v4.widget.NestedScrollView>

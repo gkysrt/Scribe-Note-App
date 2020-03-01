@@ -9,5 +9,7 @@
     <dimen name="rv_item_header_img_padding">12dp</dimen>
     <dimen name="edit_text_title_font_size">18sp</dimen>
     <dimen name="edit_text_body_font_size">16sp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 
 </resources>
