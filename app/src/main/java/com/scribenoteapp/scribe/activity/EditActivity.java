@@ -2,16 +2,25 @@ package com.scribenoteapp.scribe.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.scribenoteapp.scribe.R;
 import com.scribenoteapp.scribe.model.note.Note;
@@ -26,7 +35,10 @@ public class EditActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private int row;
     private Toolbar toolbar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     private Note noteObjectToReturn;
+    private Window editActivityWindow;
+    private ImageView toolbarBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +64,35 @@ public class EditActivity extends AppCompatActivity {
 
     public void setupUi()
     {
+        int scrimColor = this.colorFromResource(R.drawable.dummy_background);
+
+        this.toolbarBackground = findViewById(R.id.toolbar_background);
+        this.toolbarBackground.setImageResource(R.drawable.dummy_background);
+
+        this.collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
+        this.collapsingToolbarLayout.setContentScrimColor(scrimColor);
+        this.collapsingToolbarLayout.setStatusBarScrimColor(scrimColor);
+
+        this.editActivityWindow = this.getWindow();
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        editActivityWindow.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        editActivityWindow.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        // finally change the color
+        editActivityWindow.setStatusBarColor(scrimColor);
+
         this.toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(this.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        this.fab = findViewById(R.id.fab);
+
+        this.fab = findViewById(R.id.multipurposeFab);
         this.titleEditText = findViewById(R.id.create_note_title);
         this.bodyEditText = findViewById(R.id.create_note_body);
+
     }
 
     // This is where clicks on back arrow that's on the toolbar are handled
@@ -100,5 +133,22 @@ public class EditActivity extends AppCompatActivity {
         Log.d("plg0,","dpfg");
         setResult(Activity.RESULT_CANCELED, new Intent());
         super.onDestroy();
+    }
+
+    public int colorFromResource(int id)
+    {
+        Bitmap bitmap;
+        bitmap = BitmapFactory.decodeResource(getResources(), id);
+        Palette palette = Palette.from(bitmap).generate();
+
+//        Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
+//        Palette.Swatch darkVibrantSwatch = palette.getDarkVibrantSwatch();
+//        Palette.Swatch lightVibrantSwatch = palette.getLightVibrantSwatch();
+//        Palette.Swatch mutedSwatch = palette.getMutedSwatch();
+//        Palette.Swatch darkMutedSwatch = palette.getDarkMutedSwatch();
+//        Palette.Swatch lightMutedSwatch = palette.getLightMutedSwatch();
+        Palette.Swatch dominantSwatch = palette.getDominantSwatch();
+
+        return dominantSwatch != null ? dominantSwatch.getRgb() : 0;
     }
 }
