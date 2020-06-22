@@ -27,7 +27,7 @@ import java.util.TimerTask;
  */
 
 /**
- * <h1 style="background-color: rgb(128, 128, 128); color: white; text-align:center;">Scribe</h1>
+ * <h1 style="background-color: rgb(128, 128, 164); color: white; text-align:center;">Scribe</h1>
  * <h2>NoteAdapter</h2>
  * <div>
  *     <p>
@@ -36,6 +36,7 @@ import java.util.TimerTask;
  *     <p>
  *         <b>Signals:</b> itemSelectionChangedSignal, itemClickedSignal, itemSelectedSignal
  *     </p>
+ * </div>
  */
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 

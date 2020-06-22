@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- This layout is tools:showIn="@layout/activity_main" -->
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.scribenoteapp.scribe.activity.MainActivity">
 
+    <!-- Layout widget for main activity content section -->
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
+        <!-- Toolbar inside the AppBarLayout -->
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -21,8 +25,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <!-- Main body section of app_bar_main -->
     <include layout="@layout/content_main" />
 
+    <!-- Multipurpose FloatingActionButton that is used for note adding -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
