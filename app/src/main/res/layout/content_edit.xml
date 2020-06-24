@@ -8,46 +8,86 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activity.EditActivity"
-    tools:showIn="@layout/activity_edit">
+    tools:showIn="@layout/activity_edit"
+    android:id="@+id/nested_scrollview">
 
     <!-- Content section -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
-                android:text="@string/large_text" />
-
-            <EditText
-                android:id="@+id/create_note_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/create_note_title_dialog"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:importantForAutofill="no"
-                android:textSize="@dimen/edit_text_title_font_size"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/create_note_body"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/create_note_body_dialog"
-                android:inputType="textMultiLine"
-                android:gravity="start"
-                android:scrollbars="vertical"
-                android:importantForAutofill="no"
-                android:textSize="@dimen/edit_text_body_font_size" />
+                android:layout_margin="0dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="@string/title_activity_edit"
+                    android:visibility="visible"
+                    android:maxLines="1"
+                    android:background="@null"
+                    android:textSize="@dimen/edit_text_title_font_size"
+                    android:id="@+id/tv_create_note_title"/>
+
+                <EditText
+                    android:id="@+id/create_note_title"
+                    android:layout_margin="@dimen/text_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/create_note_title_dialog"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:importantForAutofill="no"
+                    android:textSize="@dimen/edit_text_title_font_size"
+                    android:text="@string/title_activity_edit"
+                    android:visibility="invisible"
+                    android:background="@null"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:layout_marginTop="0dp"
+                    android:text="@string/large_text"
+                    android:visibility="visible"
+                    android:textSize="@dimen/edit_text_body_font_size"
+                    android:background="@null"
+                    android:id="@+id/tv_create_note_body"/>
+
+                <EditText
+                    android:id="@+id/create_note_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/create_note_body_dialog"
+                    android:inputType="textMultiLine"
+                    android:gravity="start"
+                    android:importantForAutofill="no"
+                    android:layout_margin="@dimen/text_margin"
+                    android:layout_marginTop="0dp"
+                    android:textSize="@dimen/edit_text_body_font_size"
+                    android:background="@null"
+                    android:visibility="invisible"
+                    android:text="@string/large_text"/>
+                <!--                    android:scrollbars="vertical" -->
+
+            </FrameLayout>
         </LinearLayout>
+
+
+
+
     </FrameLayout>
 </android.support.v4.widget.NestedScrollView>

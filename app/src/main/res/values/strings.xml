@@ -4,7 +4,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <string name="new_note_string">New Note</string>
-    <string name="title_activity_edit">EditActivity</string>
+    <string name="title_activity_edit">Edit Note Title</string>
     <string name="note_title_dummy">Dummy note title Kill butterflies wednesday</string>
     <string name="note_body_dummy">Dummy note body etc. so on. bla bla bla la la la trolololoo</string>
     <string name="note_date_dummy">26.09.2071</string>
