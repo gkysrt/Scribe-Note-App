@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -38,8 +39,6 @@ public class EditActivity extends AppCompatActivity {
     private Window editActivityWindow;
     private ImageView toolbarBackground;
 
-    private TextView tvTitle;
-    private TextView tvBody;
     private EditText etTitle;
     private EditText etBody;
 
@@ -53,15 +52,14 @@ public class EditActivity extends AppCompatActivity {
         // Get intent that started this activity and check if a note object is sent
         Intent intentStartedThisActivity = this.getIntent();
 
+        this.etBody.clearFocus();
+        this.etTitle.clearFocus();
+
         this.noteObjectToReturn = new Note(null, null, null);
         if (intentStartedThisActivity.hasExtra("clickedNote"))
         {
             // TODO: If preview mode enabled when activity starts: implement and trigger previewMode()
             this.noteObjectToReturn = (Note) intentStartedThisActivity.getParcelableExtra("clickedNote");
-
-            this.tvBody.setText(noteObjectToReturn.getBody());
-            this.tvTitle.setText(noteObjectToReturn.getTitle());
-
             this.etBody.setText(noteObjectToReturn.getBody());
             this.etTitle.setText(noteObjectToReturn.getTitle());
             // TODO: Some other gui setup according to the input will be added here (e.g attachment visuals)
@@ -94,8 +92,6 @@ public class EditActivity extends AppCompatActivity {
 
         this.fab = findViewById(R.id.multipurposeFab);
 
-        this.tvTitle = findViewById(R.id.tv_create_note_title);
-        this.tvBody = findViewById(R.id.tv_create_note_body);
         this.etTitle = findViewById(R.id.create_note_title);
         this.etBody = findViewById(R.id.create_note_body);
     }
@@ -103,8 +99,20 @@ public class EditActivity extends AppCompatActivity {
     // This is where clicks on back arrow that's on the toolbar are handled
     @Override
     public boolean onSupportNavigateUp() {
-        this.finish();
-        return super.onSupportNavigateUp();
+            this.finish();
+            return super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(this.etTitle.hasFocus() || this.etBody.hasFocus())
+        {
+            this.etBody.clearFocus();
+            this.etTitle.clearFocus();
+        }
+
+        else
+            super.onBackPressed();
     }
 
     public void initListeners()
@@ -124,21 +132,29 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
-        this.tvTitle.setOnClickListener(new View.OnClickListener() {
+        // Title EditText, if focus is lost Title TextView is visible once more.
+        this.etTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                tvTitle.setVisibility(View.INVISIBLE);
-                etTitle.setVisibility(View.VISIBLE);
-                etTitle.requestFocus();
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus)
+                {
+                    EditActivity.this.etTitle.setTextColor(((((128 << 8) + 128) << 8) + 128));
+                }
+                else
+                    EditActivity.this.etTitle.setTextColor(((((32 << 8) + 32) << 8) + 32));
             }
         });
 
-        this.tvBody.setOnClickListener(new View.OnClickListener() {
+        this.etBody.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                tvBody.setVisibility(View.INVISIBLE);
-                etBody.setVisibility(View.VISIBLE);
-                etBody.requestFocus();
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus)
+                {
+                    EditActivity.this.etBody.setTextColor(((((128 << 8) + 128) << 8) + 128));
+                }
+                else
+                    EditActivity.this.etBody.setTextColor(((((32 << 8) + 32) << 8) + 32));
+
             }
         });
     }
